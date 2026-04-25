@@ -272,22 +272,39 @@ def battle_log_tab():
     my3 = st.selectbox("3匹目", individuals["individual_id"], index=idx(individuals, "individual_id", default_my3))
 
     st.write("### 相手のポケモン（3匹）")
-    opp1_label = st.selectbox("相手1匹目", species["label"])
-    opp1 = species.loc[species["label"] == opp1_label, "species_id"].iloc[0]
 
-    # --- 相手2,3匹目は不明を許可 ---
-    opp_choices = ["（不明）"] + species["label"].tolist()
-    opp2_label = st.selectbox("相手2匹目", opp_choices)
-    if opp2_label == "（不明）":
-        opp2 = ""
-    else:
-        opp2 = species.loc[species["label"] == opp2_label, "species_id"].iloc[0]
+    opp1_input = st.text_input("相手1")
+    opp2_input = st.text_input("相手2")
+    opp3_input = st.text_input("相手3")
 
-    opp3_label = st.selectbox("相手3匹目", opp_choices)
-    if opp3_label == "（不明）":
-        opp3 = ""
-    else:
-        opp3 = species.loc[species["label"] == opp3_label, "species_id"].iloc[0]
+    choices = ["（不明）"] + species["label"].tolist()
+    # selectbox の初期値推定
+    def filter_choices(input_text):
+        if not input_text:
+            return ["（不明）"] + species["label"].tolist()
+        hits = [label for label in species["label"] if input_text in label]
+        if len(hits) == 0:
+            return ["（不明）"] + species["label"].tolist()
+        return ["（不明）"] + hits
+
+    # --- 選択欄（補正用） ---
+    opp1_choices = filter_choices(opp1_input)
+    opp2_choices = filter_choices(opp2_input)
+    opp3_choices = filter_choices(opp3_input)
+    
+    opp1_label = st.selectbox("相手1（選択）", opp1_choices)
+    opp2_label = st.selectbox("相手2（選択）", opp2_choices)
+    opp3_label = st.selectbox("相手3（選択）", opp3_choices)
+
+    # --- 保存用 species_id 変換 ---
+    def to_species_id(label):
+        if label == "（不明）":
+            return ""
+        return species.loc[species["label"] == label, "species_id"].iloc[0]
+    
+    opp1 = to_species_id(opp1_label)
+    opp2 = to_species_id(opp2_label)
+    opp3 = to_species_id(opp3_label)
 
     # --- 勝敗 ---
     result = st.radio("結果", ["Win", "Lose", "Draw"], horizontal=True)

@@ -298,7 +298,7 @@ def render_detail():
             "individual_id", "CP", "SCP", "HP", "fast_move_ja", 
             "charge_move1_ja", "special1_turns", "charge_move2_ja", "special2_turns",
             "iv_atk", "iv_def", "iv_sta", "level"
-        ]], width='stretch')
+        ]])
 
     # テンプレ個体データ
     opponents = load_opponents()
