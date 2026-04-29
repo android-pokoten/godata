@@ -12,7 +12,8 @@ def render_simulator():
     tabs = {
         "1 vs 1": render_1vs1_simulator, 
         "マッチアップ": render_matchup, 
-        "バトルログ": battle_log_tab,
+        "バトルログ登録": battle_log_tab,
+        "バトルログ参照": battle_log_viewer_tab,
         "バトルログ分析": analyse_log_tab,
     }
 
@@ -250,16 +251,21 @@ def battle_log_tab():
         except:
             pass  # 壊れたCSVでもアプリが落ちないように
 
-    # --- シーズン（最終行を初期値に） ---
-    season_list = list(range(20, 27))
-    season = st.selectbox("シーズン", season_list, index=season_list.index(default_season))
+    left, center, right = st.columns(3)
 
-    # --- カップ名（最終行を初期値に） ---
-    cup = st.text_input("カップ名", value=default_cup)
+    with left:
+        # --- シーズン（最終行を初期値に） ---
+        season_list = list(range(20, 27))
+        season = st.selectbox("シーズン", season_list, index=season_list.index(default_season))
 
-    # --- ランク（最終行を初期値に） ---
-    rank_list = list(range(1, 24))
-    rank = st.selectbox("ランク", rank_list, index=rank_list.index(default_rank))
+    with center:
+        # --- カップ名（最終行を初期値に） ---
+        cup = st.text_input("カップ名", value=default_cup)
+
+    with right:
+        # --- ランク（最終行を初期値に） ---
+        rank_list = list(range(1, 24))
+        rank = st.selectbox("ランク", rank_list, index=rank_list.index(default_rank))
 
     st.write("### 自分の手持ち（3匹）")
     def idx(df, col, val):
@@ -267,15 +273,23 @@ def battle_log_tab():
         # そのままだと Numpy.int64 になってしまうので、int に変換
         return ret.item()
 
-    my1 = st.selectbox("1匹目", individuals["individual_id"], index=idx(individuals, "individual_id", default_my1))
-    my2 = st.selectbox("2匹目", individuals["individual_id"], index=idx(individuals, "individual_id", default_my2))
-    my3 = st.selectbox("3匹目", individuals["individual_id"], index=idx(individuals, "individual_id", default_my3))
+    left, center, right = st.columns(3)
+    with left:
+        my1 = st.selectbox("1匹目", individuals["individual_id"], index=idx(individuals, "individual_id", default_my1))
+    with center:
+        my2 = st.selectbox("2匹目", individuals["individual_id"], index=idx(individuals, "individual_id", default_my2))
+    with right:
+        my3 = st.selectbox("3匹目", individuals["individual_id"], index=idx(individuals, "individual_id", default_my3))
 
     st.write("### 相手のポケモン（3匹）")
+    left, center, right = st.columns(3)
 
-    opp1_input = st.text_input("相手1")
-    opp2_input = st.text_input("相手2")
-    opp3_input = st.text_input("相手3")
+    with left:
+        opp1_input = st.text_input("相手1")
+    with center:
+        opp2_input = st.text_input("相手2")
+    with right:
+        opp3_input = st.text_input("相手3")
 
     choices = ["（不明）"] + species["label"].tolist()
     # selectbox の初期値推定
@@ -291,10 +305,15 @@ def battle_log_tab():
     opp1_choices = filter_choices(opp1_input)
     opp2_choices = filter_choices(opp2_input)
     opp3_choices = filter_choices(opp3_input)
-    
-    opp1_label = st.selectbox("相手1（選択）", opp1_choices)
-    opp2_label = st.selectbox("相手2（選択）", opp2_choices)
-    opp3_label = st.selectbox("相手3（選択）", opp3_choices)
+        
+    left, center, right = st.columns(3)
+
+    with left:
+        opp1_label = st.selectbox("相手1（選択）", opp1_choices)
+    with center:
+        opp2_label = st.selectbox("相手2（選択）", opp2_choices)
+    with right:
+        opp3_label = st.selectbox("相手3（選択）", opp3_choices)
 
     # --- 保存用 species_id 変換 ---
     def to_species_id(label):
@@ -311,6 +330,8 @@ def battle_log_tab():
 
     # --- コメント（任意） ---
     comment = st.text_area("コメント（任意・100文字まで）", max_chars=100)
+    # 改行を削除して1行にまとめる
+    comment = "".join(comment.splitlines())
 
     # --- 保存処理 ---
     if st.button("ログを保存"):
@@ -430,3 +451,115 @@ def analyse_log_tab():
     pokemon_stats["勝率"] = (pokemon_stats["勝率"] * 100).round(1).astype(str) + "%"
 
     st.table(pokemon_stats.sort_values("勝率", ascending=False))
+
+# バトルログ参照
+@st.fragment
+def battle_log_viewer_tab():
+
+    st.header("バトルログ閲覧")
+
+    try:
+        df = pd.read_csv(battle_log_path)
+    except:
+        st.warning(f"{battle_log_path} がありません。バトルログを記録してください。")
+        return
+
+    if len(df) == 0:
+        st.warning("バトルログが空です。")
+        return
+
+    # --- フィルターUI ---
+    st.subheader("フィルター")
+
+    seasons = ["すべて"] + sorted(df["season"].dropna().unique().tolist())
+    cups = ["すべて"] + sorted(df["cup"].dropna().unique().tolist())
+    ranks = ["すべて"] + sorted(df["rank"].dropna().unique().tolist())
+
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        season_filter = st.selectbox("シーズン", seasons)
+    with col2:
+        cup_filter = st.selectbox("カップ", cups)
+    with col3:
+        rank_filter = st.selectbox("ランク", ranks)
+
+    # --- フィルタリング ---
+    df_filtered = df.copy()
+
+    if season_filter != "すべて":
+        df_filtered = df_filtered[df_filtered["season"] == season_filter]
+
+    if cup_filter != "すべて":
+        df_filtered = df_filtered[df_filtered["cup"] == cup_filter]
+
+    if rank_filter != "すべて":
+        df_filtered = df_filtered[df_filtered["rank"] == rank_filter]
+
+    # --- 表示用整形 ---
+    def format_team(row, prefix):
+        return f"{row[prefix+'1']} / {row[prefix+'2']} / {row[prefix+'3']}"
+
+    df_filtered["自分の構築"] = df_filtered.apply(lambda r: format_team(r, "my"), axis=1)
+    df_filtered["相手の構築"] = df_filtered.apply(lambda r: format_team(r, "opp"), axis=1)
+
+    display_cols = [
+        "timestamp", "season", "cup", "rank",
+        "自分の構築", "opp1", "opp2", "opp3",
+        "result", "comment"
+    ]
+
+    st.subheader("バトルログ一覧")
+    st.dataframe(
+        df_filtered[display_cols],
+        column_config={
+            "opp1": "相手1",
+            "opp2": "相手2",
+            "opp3": "相手3",
+        })
+
+    left, center, right = st.columns(3)
+
+    with left:
+        st.subheader("勝率")
+
+        total = len(df_filtered)
+        wins = (df_filtered["result"] == "Win").sum()
+        win_rates = wins / total * 100 if total > 0 else 0
+
+        st.write(f"試合数: {total} / 勝率: {win_rates:.1f}%")
+
+    with center:
+        st.subheader("相手の初手ポケモン")
+
+        opp1_counts = df_filtered["opp1"].value_counts()
+        opp1_rate = (opp1_counts / total * 100).round(1)
+
+        df_opp1 = pd.DataFrame({
+            "出現数": opp1_counts,
+            "割合(%)": opp1_rate
+        })
+
+        st.dataframe(df_opp1)
+
+    with right:
+        st.subheader("相手の全ポケモン")
+
+        # 3列を縦に並べる
+        all_opps = pd.concat([
+            df_filtered["opp1"],
+            df_filtered["opp2"],
+            df_filtered["opp3"]
+        ])
+
+        # 空欄は除外
+        all_opps = all_opps[all_opps != ""]
+
+        opp_counts = all_opps.value_counts()
+        opp_rate = (opp_counts / len(all_opps) * 100).round(1)
+
+        df_opp_all = pd.DataFrame({
+            "出現数": opp_counts,
+            "割合(%)": opp_rate
+        })
+
+        st.dataframe(df_opp_all)
