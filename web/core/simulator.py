@@ -79,12 +79,22 @@ def apply_charge(move, atk, deff, hp, shields, energy, stab=1.0, eff=1.0):
     return hp, shields, energy, dmg
 
 # 1vs1 シミュレーター
-def simulate(p1, p2, species, moves, shield1, shield2):
+def simulate(p1, p2, species, moves,
+        shield1=0, shield2=0,
+        hp1=None, hp2=None,
+        energy1=0, energy2=0
+    ):
     logs = ""
 
     # 実数値計算
-    atk1, def1, hp1 = calc_stats_for_individual(p1, species)
-    atk2, def2, hp2 = calc_stats_for_individual(p2, species)
+    atk1, def1, hpi1 = calc_stats_for_individual(p1, species)
+    atk2, def2, hpi2 = calc_stats_for_individual(p2, species)
+
+    # HP 初期化
+    if hp1 is None:
+        hp1 = hpi1
+    if hp2 is None:
+        hp2 = hpi2
 
     # 技データ (dict化)
     sp1 = species[species["species_id"] == p1["species_id"]].iloc[0] 
@@ -218,6 +228,8 @@ def simulate(p1, p2, species, moves, shield1, shield2):
         "hp2": hp2,
         "shield1": shield1,
         "shield2": shield2,
+        "energy1": energy1,
+        "energy2": energy2,
         "turns": turn,
         "logs": logs,
     }

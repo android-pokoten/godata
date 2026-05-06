@@ -49,88 +49,6 @@ def render_3vs3_simulator():
         row["individual_id"] = sp["name_ja"]
         return row
 
-    def simulate_1vs1_simple_with_state(
-        p1, p2,
-        moves_df,
-        hp1=None, hp2=None,
-        e1=0, e2=0
-    ):
-        """
-        p1, p2: 個体データ(dict)
-        moves_df: moves.csv を DataFrame 化したもの
-        hp1, hp2: 前の対面から引き継いだ HP（None の場合は満タン）
-        e1, e2: 引き継ぎエネルギー
-        """
-        vslog = []
-
-        # HP 初期化
-        if hp1 is None:
-            hp1 = p1["HP"]
-        if hp2 is None:
-            hp2 = p2["HP"]
-
-        # 技データ取得
-        f1 = moves_df.loc[p1["fast_move"]]
-        f2 = moves_df.loc[p2["fast_move"]]
-
-        c1 = moves_df.loc[p1["charge_move1"]]
-        c1_ene = abs(c1["energy"])
-        c2 = moves_df.loc[p2["charge_move1"]]
-        c2_ene = abs(c2["energy"])
-
-        # ターンは 0.5秒単位で進める
-        # duration_ms を 500ms 単位に変換
-        f1_cd = int(f1["turns"])
-        f2_cd = int(f2["turns"])
-
-        t1 = 0
-        t2 = 0
-
-        # 対面開始ログ
-        vslog.append(f"{p1['individual_id']} vs {p2['individual_id']} 開始")
-        print(f"p1: {f1["power"]}, {f1["energy"]}, {f1_cd}, {c1["energy"]}, {c1["power"]}, {c1_ene}")
-        print(f"p2: {f2["power"]}, {f2["energy"]}, {f2_cd}, {c2["energy"]}, {c2["power"]}, {c2_ene}")
-
-        while hp1 > 0 and hp2 > 0:
-
-            print(f"{t1} / {e1}:{e2} / {hp1}:{hp2} / {c1_ene}:{c2_ene}")
-            # --- p1 の行動 ---
-            t1 += 1
-            if t1 >= f1_cd:
-                t1 = 0
-                hp2 -= f1["power"]
-                e1 += f1["energy"]
-                print(f"P1のノーマルわざ > HP2:{hp2} E1:{e1}")
-
-                # スペシャル発動
-                if e1 >= c1_ene:
-                    e1 -= c1_ene
-                    hp2 -= c1["power"]
-                    print(f"P1のスペシャルわざ > HP2:{hp2} E1:{e1}")
-
-                if hp2 <= 0:
-                    vslog.append(f"{p1['individual_id']} 勝利 HP: {hp1}, エネルギー: {e1}")
-                    return "p1", hp1, 0, e1, 0, vslog
-
-            # --- p2 の行動 ---
-            t2 += 1
-            if t2 >= f2_cd:
-                t2 = 0
-                hp1 -= f2["power"]
-                e2 += f2["energy"]
-                print(f"P2のノーマルわざ > HP1:{hp1} E2:{e2}")
-
-                if e2 >= c2_ene:
-                    e2 -= c2_ene
-                    hp1 -= c2["power"]
-                    print(f"P2のスペシャルわざ > HP1:{hp1} E2:{e2}")
-
-                if hp1 <= 0:
-                    vslog.append(f"{p2['individual_id']} 勝利 HP: {hp2}, エネルギー: {e2}")
-                    return "p2", 0, hp2, 0, e2, vslog
-
-        return ("p1" if hp1 > 0 else "p2"), hp1, hp2, e1, e2, vslog
-
     def simulate_3vs3_simple(my_team, opp_team, moves_df):
         """
         my_team, opp_team: [p1, p2, p3] のテンプレ個体(dict)
@@ -148,26 +66,33 @@ def render_3vs3_simulator():
         log1vs1 = ""
 
         while my_idx < 3 and opp_idx < 3:
-            result, my_hp, opp_hp, my_e, opp_e, log1vs1 = simulate_1vs1_simple_with_state(
+            result = simulate(
                 my_team[my_idx],
                 opp_team[opp_idx],
+                species,
                 moves_df,
+                0, 0,
                 my_hp, opp_hp,
                 my_e, opp_e
-            )
+            ) 
+            battle_log.append(f"{my_team[my_idx]["individual_id"]} vs {opp_team[opp_idx]["individual_id"]}")
 
-            battle_log.extend(log1vs1)
-
-            if result == "p1":
+            if result["winner"] == my_team[my_idx]["individual_id"]:
                 # 相手が倒れた
                 opp_idx += 1
                 opp_hp = None
                 opp_e = 0
+                my_hp = result["hp1"]
+                my_e = result["energy1"]
+                battle_log.append(f"{result["winner"]} 勝利 HP: {result["hp1"]}, エネルギー: {result["energy1"]}")
             else:
                 # 自分が倒れた
                 my_idx += 1
                 my_hp = None
                 my_e = 0
+                opp_hp = result["hp2"]
+                opp_e = result["energy2"]
+                battle_log.append(f"{result["winner"]} 勝利 HP: {result["hp2"]}, エネルギー: {result["energy2"]}")
 
         st.table(battle_log)
         return my_idx < 3  # True = 勝ち
