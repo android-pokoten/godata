@@ -285,4 +285,5 @@ def generate_template_individual(species_id, species_row):
         "fast_move": fast,
         "charge_move1": charge1,
         "charge_move2": charge2,
+        "HP": best_hp,
     }

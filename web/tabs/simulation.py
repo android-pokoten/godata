@@ -3,6 +3,7 @@ import pandas as pd
 
 from core.simulator import simulate, list_move_damage_both
 from core.loader import load_species, load_individuals, load_moves, load_opponents
+from tabs.party_sim import render_3vs3_simulator
 
 # バトルログのパス
 battle_log_path = "data/battle_log.csv"
@@ -15,6 +16,7 @@ def render_simulator():
         "バトルログ登録": battle_log_tab,
         "バトルログ参照": battle_log_viewer_tab,
         "バトルログ分析": analyse_log_tab,
+        "3 vs 3": render_3vs3_simulator,
     }
 
     tab_objects = st.tabs(list(tabs.keys()))
@@ -531,12 +533,20 @@ def battle_log_viewer_tab():
     with center:
         st.subheader("相手の初手ポケモン")
 
+        # 初手ごとの出現数
         opp1_counts = df_filtered["opp1"].value_counts()
+
+        # 初手ごとの出現割合
         opp1_rate = (opp1_counts / total * 100).round(1)
+
+        # 初手ごとの勝率
+        opp1_wins = df_filtered[df_filtered["result"] == "Win"]["opp1"].value_counts()
+        opp1_winrate = (opp1_wins / opp1_counts * 100).fillna(0).round(1)
 
         df_opp1 = pd.DataFrame({
             "出現数": opp1_counts,
-            "割合(%)": opp1_rate
+            "割合(%)": opp1_rate,
+            "勝率(%)": opp1_winrate
         })
 
         st.dataframe(df_opp1)
@@ -554,12 +564,28 @@ def battle_log_viewer_tab():
         # 空欄は除外
         all_opps = all_opps[all_opps != ""]
 
+        # ポケモンごとの出現数
         opp_counts = all_opps.value_counts()
+
+        # ポケモンごとの出現割合
         opp_rate = (opp_counts / len(all_opps) * 100).round(1)
+
+        # 勝ち数（勝った試合の opp1〜3 を縦に並べる）
+        all_opps_win = pd.concat([
+            df_filtered[df_filtered["result"] == "Win"]["opp1"],
+            df_filtered[df_filtered["result"] == "Win"]["opp2"],
+            df_filtered[df_filtered["result"] == "Win"]["opp3"]
+        ])
+        all_opps_win = all_opps_win[all_opps_win != ""]
+        opp_wins = all_opps_win.value_counts()
+
+        # 勝率
+        opp_winrate = (opp_wins / opp_counts * 100).fillna(0).round(1)
 
         df_opp_all = pd.DataFrame({
             "出現数": opp_counts,
-            "割合(%)": opp_rate
+            "割合(%)": opp_rate,
+            "勝率(%)": opp_winrate
         })
 
         st.dataframe(df_opp_all)
