@@ -1989,10 +1989,10 @@ skeledirge,ラウドボーン,fire,ghost,207,178,232,"incinerate_fast,bite_fast,
 quaxly,クワッス,water,,120,86,146,"water_gun_fast,wing_attack_fast","aqua_jet,aerial_ace,liquidation",,,,QUAXWELL,,,912
 quaxwell,ウェルカモ,water,,162,123,172,"water_gun_fast,wing_attack_fast","aqua_jet,aerial_ace,liquidation",,,,QUAQUAVAL,QUAXLY,,913
 quaquaval,ウェーニバル,water,fighting,236,159,198,"water_gun_fast,wing_attack_fast","aqua_jet,aerial_ace,liquidation,close_combat,aqua_step",,,hydro_cannon,,QUAXWELL,,914
-lechonk,グルトン,normal,,81,79,144,"tackle_fast,take_down_fast","dig,trailblaze,body_slam",,,,"OINKOLOGNE,OINKOLOGNE",,,915
+lechonk,グルトン,normal,,81,79,144,"tackle_fast,take_down_fast","dig,trailblaze,body_slam",,,,"OINKOLOGNE,OINKOLOGNE_FEMALE",,,915
 oinkologne,パフュートン,normal,,186,153,242,"tackle_fast,take_down_fast","dig,trailblaze,body_slam",,,,,LECHONK,,916
-oinkologne_female,パフュートン,normal,,169,162,251,"tackle_fast,take_down_fast","dig,trailblaze,body_slam",oinkologne_female,,,,,,916
-oinkologne_normal,パフュートン,normal,,186,153,242,"tackle_fast,take_down_fast","dig,trailblaze,body_slam",oinkologne_normal,,,,,,916
+oinkologne_female,パフュートン,normal,,169,162,251,"tackle_fast,take_down_fast","dig,trailblaze,body_slam",oinkologne_female,mud_slap_fast,,,,,916
+oinkologne_normal,パフュートン,normal,,186,153,242,"tackle_fast,take_down_fast","dig,trailblaze,body_slam",oinkologne_normal,mud_slap_fast,,,,,916
 tarountula,タマンチュラ,bug,,70,77,111,"bug_bite_fast,struggle_bug_fast","x_scissor,grass_knot,lunge",,,,SPIDOPS,,,917
 spidops,ワナイダー,bug,,139,166,155,"bug_bite_fast,counter_fast,shadow_claw_fast","x_scissor,grass_knot,lunge,rock_tomb",,,,,TAROUNTULA,,918
 nymble,マメバッタ,bug,,81,65,107,"bug_bite_fast,struggle_bug_fast","x_scissor,trailblaze,bug_buzz",,,,LOKIX,,,919
