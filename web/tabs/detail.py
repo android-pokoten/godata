@@ -128,6 +128,7 @@ def render_detail():
         st.markdown(html2, unsafe_allow_html=True)
 
     with col2:
+        st.write(f"**図鑑番号:** {int(sp['dex']):04d}")
         st.write(f"**攻撃種族値:** {sp['base_atk']}")
         st.write(f"**防御種族値:** {sp['base_def']}")
         st.write(f"**ＨＰ種族値:** {sp['base_sta']}")
