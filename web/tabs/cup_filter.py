@@ -15,9 +15,9 @@ individuals["CP"] = individuals.apply(compute_cp_row, axis=1)
 individuals["SCP"] = individuals.apply(compute_scp_row, axis=1)
 individuals["HP"] = individuals.apply(compute_hp_row, axis=1)
 
-# ポケモンのタイプ、世代を付与
+# ポケモンのタイプ、図鑑番号を付与
 individuals = individuals.merge(
-    species[["species_id", "type1", "type2", "generation"]],
+    species[["species_id", "type1", "type2", "dex"]],
     on="species_id",
     how="left"
 )
@@ -72,7 +72,7 @@ def render_cup_filter():
             func()
 
 
-def cup_filter_common(target_types, banned_types, banned_sp):
+def cup_filter_common(target_types, banned_types, banned_sp, dex_numbers):
     species = load_species()
     
     # 出場可能タイプが指定されている場合、タイプでフィルター
@@ -93,6 +93,11 @@ def cup_filter_common(target_types, banned_types, banned_sp):
     species = species[
         ~species["species_id"].isin(banned_sp)
     ]
+
+    # 図鑑番号の指定がある場合、図鑑番号でフィルター
+    # 空の場合はフィルターをスキップ
+    if len(dex_numbers) > 0:
+        species = species[species["dex"].isin(dex_numbers)]
 
     # individuals のリストをフィルターした結果を返す
     target_species_ids = species["species_id"].tolist()
@@ -173,7 +178,10 @@ def render_jungle_filter():
     # 使用不可
     banned_ids = []
 
-    target_individuals, all_types, all_move_types = cup_filter_common(target_types, banned_type, banned_ids)
+    # 図鑑番号
+    dex_numbers = []
+
+    target_individuals, all_types, all_move_types = cup_filter_common(target_types, banned_type, banned_ids, dex_numbers)
 
     st.subheader("出場可能な手持ち一覧")
     # フィルター
@@ -211,7 +219,10 @@ def render_electro_filter():
     # 使用不可
     banned_ids = ["stunfisk", "heliolisk", "charjabug", "vikavolt"]
 
-    target_individuals, all_types, all_move_types = cup_filter_common(target_types, banned_type, banned_ids)
+    # 図鑑番号
+    dex_numbers = []
+
+    target_individuals, all_types, all_move_types = cup_filter_common(target_types, banned_type, banned_ids, dex_numbers)
 
     st.subheader("出場可能な手持ち一覧")
     # フィルター
@@ -249,7 +260,10 @@ def render_fantasy_filter():
     # 使用不可
     banned_ids = []
 
-    target_individuals, all_types, all_move_types = cup_filter_common(target_types, banned_type, banned_ids)
+    # 図鑑番号
+    dex_numbers = []
+
+    target_individuals, all_types, all_move_types = cup_filter_common(target_types, banned_type, banned_ids, dex_numbers)
 
     st.subheader("出場可能な手持ち一覧")
     # フィルター
@@ -287,7 +301,10 @@ def render_spring_filter():
     # 使用不可
     banned_ids = ["jumpluff", "roserade", "toxapex"]
 
-    target_individuals, all_types, all_move_types = cup_filter_common(target_types, banned_type, banned_ids)
+    # 図鑑番号
+    dex_numbers = []
+
+    target_individuals, all_types, all_move_types = cup_filter_common(target_types, banned_type, banned_ids, dex_numbers)
 
     st.subheader("出場可能な手持ち一覧")
     # フィルター
@@ -327,10 +344,10 @@ def render_kanto_filter():
     # 使用不可
     banned_ids = []
 
-    target_individuals, all_types, all_move_types = cup_filter_common(target_types, banned_type, banned_ids)
+    # 図鑑番号
+    dex_numbers = list(range(1, 152))
 
-    # カントーカップ（第1世代）
-    target_individuals = target_individuals[target_individuals["generation"] == 1]
+    target_individuals, all_types, all_move_types = cup_filter_common(target_types, banned_type, banned_ids, dex_numbers)
 
     st.subheader("出場可能な手持ち一覧")
     # フィルター
@@ -340,5 +357,5 @@ def render_kanto_filter():
         "individual_id", "iv_atk", "iv_def", "iv_sta", "level",
         "is_shadow", "is_purified", "CP", "SCP", "HP",
         "type1_ja", "type2_ja",
-        "fast_ja", "fast_type_ja", "charge1_ja", "charge1_type_ja", "charge2_ja", "charge2_type_ja", "generation"
+        "fast_ja", "fast_type_ja", "charge1_ja", "charge1_type_ja", "charge2_ja", "charge2_type_ja"
     ]].sort_values("individual_id"), width='stretch')
