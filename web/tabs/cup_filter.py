@@ -58,11 +58,17 @@ individuals["charge2_type_ja"] = individuals["charge2_type"].map(TYPE_JA)
 @st.fragment
 def render_cup_filter():
     tabs = {
+        "かけじくカップ": render_kakejiku_filter,
+        "カントーカップ": render_kanto_filter, 
+        "サマーカップ": render_summer_filter,
+        "自然界カップ": render_nature_filter,
+        "進化カップ": render_evolve_filter,
         "ジャングルカップ": render_jungle_filter,
         "でんきカップ": render_electro_filter,
-        "ファンタジーカップ": render_fantasy_filter,
         "春カップ": render_spring_filter, 
-        "カントーカップ": render_kanto_filter, 
+        "ファンタジーカップ": render_fantasy_filter,
+        "陽光カップ": render_sunshine_filter,
+        "レトロカップ": render_retro_filter,
     }
 
     tab_objects = st.tabs(list(tabs.keys()))
@@ -352,6 +358,253 @@ def render_kanto_filter():
     st.subheader("出場可能な手持ち一覧")
     # フィルター
     ivs = filter_type_common("kanto", target_individuals, all_types, all_move_types)
+
+    st.dataframe(ivs[[
+        "individual_id", "iv_atk", "iv_def", "iv_sta", "level",
+        "is_shadow", "is_purified", "CP", "SCP", "HP",
+        "type1_ja", "type2_ja",
+        "fast_ja", "fast_type_ja", "charge1_ja", "charge1_type_ja", "charge2_ja", "charge2_type_ja"
+    ]].sort_values("individual_id"), width='stretch')
+
+# 陽光カップ
+def render_sunshine_filter():
+    st.header("陽光カップ出場可能ポケモン")
+
+    st.markdown("""
+    ### ☀️ 陽光カップ出場条件
+
+    - **CP1500 以下**
+    - **使用可能タイプ：**
+    - ノーマル / ほのお / くさ / じめん
+    - **使用禁止タイプ：**
+    - (なし)
+    - **使用不可**
+    - リザードン
+    """)
+
+    # カップ対象タイプ
+    target_types = ["normal", "fire", "grass", "ground"]
+
+    # 出場不可タイプ
+    banned_type = []
+
+    # 使用不可
+    banned_ids = ["charizard"]
+
+    # 図鑑番号
+    dex_numbers = []
+
+    target_individuals, all_types, all_move_types = cup_filter_common(target_types, banned_type, banned_ids, dex_numbers)
+
+    st.subheader("出場可能な手持ち一覧")
+    # フィルター
+    ivs = filter_type_common("sunshine", target_individuals, all_types, all_move_types)
+
+    st.dataframe(ivs[[
+        "individual_id", "iv_atk", "iv_def", "iv_sta", "level",
+        "is_shadow", "is_purified", "CP", "SCP", "HP",
+        "type1_ja", "type2_ja",
+        "fast_ja", "fast_type_ja", "charge1_ja", "charge1_type_ja", "charge2_ja", "charge2_type_ja"
+    ]].sort_values("individual_id"), width='stretch')
+
+# サマーカップ
+def render_summer_filter():
+    st.header("サマーカップ出場可能ポケモン")
+
+    st.markdown("""
+    ### ☀️ サマーカップ出場条件
+
+    - **CP1500 以下**
+    - **使用可能タイプ：**
+    - ノーマル / ほのお / みず / くさ / でんき / むし
+    - **使用禁止タイプ：**
+    - (なし)
+    - **使用不可**
+    - (なし)
+    """)
+
+    # カップ対象タイプ
+    target_types = ["normal", "fire", "walter", "grass", "electric", "bug"]
+
+    # 出場不可タイプ
+    banned_type = []
+
+    # 使用不可
+    banned_ids = []
+
+    # 図鑑番号
+    dex_numbers = []
+
+    target_individuals, all_types, all_move_types = cup_filter_common(target_types, banned_type, banned_ids, dex_numbers)
+
+    st.subheader("出場可能な手持ち一覧")
+    # フィルター
+    ivs = filter_type_common("summer", target_individuals, all_types, all_move_types)
+
+    st.dataframe(ivs[[
+        "individual_id", "iv_atk", "iv_def", "iv_sta", "level",
+        "is_shadow", "is_purified", "CP", "SCP", "HP",
+        "type1_ja", "type2_ja",
+        "fast_ja", "fast_type_ja", "charge1_ja", "charge1_type_ja", "charge2_ja", "charge2_type_ja"
+    ]].sort_values("individual_id"), width='stretch')
+
+# レトロカップ
+def render_retro_filter():
+    st.header("レトロカップ出場可能ポケモン")
+
+    st.markdown("""
+    ### レトロカップ出場条件
+
+    - **CP1500 以下**
+    - **使用可能タイプ：**
+    - 制限なし
+    - **使用禁止タイプ：**
+    - あく / はがね / フェアリー
+    - **使用不可**
+    - (なし)
+    """)
+
+    # カップ対象タイプ
+    target_types = []
+
+    # 出場不可タイプ
+    banned_type = ["dark", "steel", "fairy"]
+
+    # 使用不可
+    banned_ids = []
+
+    # 図鑑番号
+    dex_numbers = []
+
+    target_individuals, all_types, all_move_types = cup_filter_common(target_types, banned_type, banned_ids, dex_numbers)
+
+    st.subheader("出場可能な手持ち一覧")
+    # フィルター
+    ivs = filter_type_common("retro", target_individuals, all_types, all_move_types)
+
+    st.dataframe(ivs[[
+        "individual_id", "iv_atk", "iv_def", "iv_sta", "level",
+        "is_shadow", "is_purified", "CP", "SCP", "HP",
+        "type1_ja", "type2_ja",
+        "fast_ja", "fast_type_ja", "charge1_ja", "charge1_type_ja", "charge2_ja", "charge2_type_ja"
+    ]].sort_values("individual_id"), width='stretch')
+
+# 自然界カップ
+def render_nature_filter():
+    st.header("自然界カップ出場可能ポケモン")
+
+    st.markdown("""
+    ### 🌥️ 自然界カップ出場条件
+
+    - **CP1500 以下**
+    - **使用可能タイプ：**
+    - ほのお / みず / こおり / いわ
+    - **使用禁止タイプ：**
+    - (なし)
+    - **使用不可**
+    - (なし)
+    """)
+
+    # カップ対象タイプ
+    target_types = ["fire", "walter", "ice", "rock"]
+
+    # 出場不可タイプ
+    banned_type = []
+
+    # 使用不可
+    banned_ids = []
+
+    # 図鑑番号
+    dex_numbers = []
+
+    target_individuals, all_types, all_move_types = cup_filter_common(target_types, banned_type, banned_ids, dex_numbers)
+
+    st.subheader("出場可能な手持ち一覧")
+    # フィルター
+    ivs = filter_type_common("nature", target_individuals, all_types, all_move_types)
+
+    st.dataframe(ivs[[
+        "individual_id", "iv_atk", "iv_def", "iv_sta", "level",
+        "is_shadow", "is_purified", "CP", "SCP", "HP",
+        "type1_ja", "type2_ja",
+        "fast_ja", "fast_type_ja", "charge1_ja", "charge1_type_ja", "charge2_ja", "charge2_type_ja"
+    ]].sort_values("individual_id"), width='stretch')
+
+# 進化カップ
+def render_evolve_filter():
+    st.header("進化カップ出場可能ポケモン")
+
+    st.markdown("""
+    ### ⚛️ 進化カップ出場条件
+
+    - **CP1500 以下**
+    - **使用可能タイプ：**
+    - 制限なし
+    - **使用禁止タイプ：**
+    - (なし)
+    - **使用不可**
+    - (なし)
+    - 1回以上進化しており、かつも一度進化が可能なポケモン
+    """)
+
+    # カップ対象タイプ
+    target_types = []
+
+    # 出場不可タイプ
+    banned_type = []
+
+    # 使用不可
+    banned_ids = []
+
+    # 図鑑番号
+    dex_numbers = []
+
+    target_individuals, all_types, all_move_types = cup_filter_common(target_types, banned_type, banned_ids, dex_numbers)
+
+    st.subheader("出場可能な手持ち一覧")
+    # フィルター
+    ivs = filter_type_common("evolve", target_individuals, all_types, all_move_types)
+
+    st.dataframe(ivs[[
+        "individual_id", "iv_atk", "iv_def", "iv_sta", "level",
+        "is_shadow", "is_purified", "CP", "SCP", "HP",
+        "type1_ja", "type2_ja",
+        "fast_ja", "fast_type_ja", "charge1_ja", "charge1_type_ja", "charge2_ja", "charge2_type_ja"
+    ]].sort_values("individual_id"), width='stretch')
+
+# かけじくカップ
+def render_kakejiku_filter():
+    st.header("かけじくカップ出場可能ポケモン")
+
+    st.markdown("""
+    ### 💧 かけじくカップ出場条件
+
+    - **CP1500 以下**
+    - **使用可能タイプ：**
+    - みず / かくとう / あく
+    - **使用禁止タイプ：**
+    - (なし)
+    - **使用不可**
+    - アシレーヌ
+    """)
+
+    # カップ対象タイプ
+    target_types = ["walter", "fighting", "dark"]
+
+    # 出場不可タイプ
+    banned_type = []
+
+    # 使用不可
+    banned_ids = ["primarina"]
+
+    # 図鑑番号
+    dex_numbers = []
+
+    target_individuals, all_types, all_move_types = cup_filter_common(target_types, banned_type, banned_ids, dex_numbers)
+
+    st.subheader("出場可能な手持ち一覧")
+    # フィルター
+    ivs = filter_type_common("kakejiku", target_individuals, all_types, all_move_types)
 
     st.dataframe(ivs[[
         "individual_id", "iv_atk", "iv_def", "iv_sta", "level",
