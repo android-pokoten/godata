@@ -257,7 +257,7 @@ def battle_log_tab():
 
     with left:
         # --- シーズン（最終行を初期値に） ---
-        season_list = list(range(20, 27))
+        season_list = list(range(20, 28))
         season = st.selectbox("シーズン", season_list, index=season_list.index(default_season))
 
     with center:
@@ -271,9 +271,10 @@ def battle_log_tab():
 
     st.write("### 自分の手持ち（3匹）")
     def idx(df, col, val):
-        ret = df.index[df[col] == val][0] if val in df[col].values else 0
-        # そのままだと Numpy.int64 になってしまうので、int に変換
-        return ret.item()
+        try:
+            return int(df.index[df[col] == val][0])
+        except Exception:
+            return 0
 
     left, center, right = st.columns(3)
     with left:
