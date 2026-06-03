@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 
 from core.loader import load_species, load_moves, load_individuals, load_opponents
+from tabs.season_effect import render_season_effect
 
 @st.fragment
 def render_datum():
@@ -9,6 +10,7 @@ def render_datum():
     tabs = {
         "種族値": render_species, 
         "わざ": render_moves, 
+        "シーズン調整一覧": render_season_effect,
         "テンプレ個体": render_opponents,
         "タイプ相性表": render_typechart,
     }
@@ -46,7 +48,15 @@ def render_moves():
     fast_mask = moves["category"] == "charge"
     moves.loc[fast_mask, "dpe"] = (moves.loc[fast_mask, "power"] / moves.loc[fast_mask, "energy"].abs()).round(1)
 
-    st.dataframe(moves, width='stretch')
+    st.subheader("フィルター")
+    sp_ene_filter = st.selectbox("スペシャルわざのエネルギー", ["-", -35, -40, -45, -50, -55])
+    
+    df_filtered = moves.copy()
+
+    if sp_ene_filter != "-":
+        df_filtered = df_filtered[(df_filtered["energy"] == sp_ene_filter) & (df_filtered["category"] == "charge")]
+
+    st.dataframe(df_filtered, width='stretch')
 
 # テンプレ個体一覧
 def render_opponents():
