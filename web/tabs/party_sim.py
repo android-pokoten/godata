@@ -143,3 +143,32 @@ def render_3vs3_simulator():
             st.write(f"自分のパーティの勝利")
         else:
             st.write(f"相手のパーティの勝ち")
+
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.write("自分の2, 3番目入れ替え")
+            result = simulate_3vs3_simple([my_team[0], my_team[2], my_team[1]], opp_team, moves)
+
+            if result:
+                st.write(f"自分のパーティの勝利")
+            else:
+                st.write(f"相手のパーティの勝ち")
+
+        with col2:
+            st.write("相手の2, 3番目入れ替え")
+            result = simulate_3vs3_simple(my_team, [opp_team[0], opp_team[2], opp_team[1]], moves)
+
+            if result:
+                st.write(f"自分のパーティの勝利")
+            else:
+                st.write(f"相手のパーティの勝ち")
+
+        with col3:
+            st.write("両方の2, 3番目入れ替え")
+            result = simulate_3vs3_simple([my_team[0], my_team[2], my_team[1]], [opp_team[0], opp_team[2], opp_team[1]], moves)
+
+            if result:
+                st.write(f"自分のパーティの勝利")
+            else:
+                st.write(f"相手のパーティの勝ち")
+
