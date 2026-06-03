@@ -7,7 +7,6 @@ from core.loader import load_species, load_moves, load_individuals, load_opponen
 
 # シーズンごとのコミットIDリスト
 SEASON_COMMITS = {
-    #"S26 -> S27": "b7f9359a5903854e1da8486631bef85eeafef253",
     "S26 -> S27": "6012742ffe4b0e0024ec8340785e299f1f72bdea",
 }
 
@@ -259,7 +258,6 @@ def render_season_effect():
         filtered_df = affected_df[affected_df["move_name_ja"] == selected_move]
 
     # --- わざを覚えるポケモンフィルター UI ---
-    print(f"{filtered_df}")
     all_species = ["すべて"] + sorted(filtered_df["name_ja"].unique())
     selected_sp = st.selectbox("ポケモンで絞り込み", all_species)
 
