@@ -3,7 +3,7 @@ megahorn,メガホーン,bug,charge,110.0,-55,
 bug_buzz,むしのさざめき,bug,charge,100.0,-60,
 signal_beam,シグナルビーム,bug,charge,75.0,-55,
 x_scissor,シザークロス,bug,charge,65.0,-40,
-silver_wind,ぎんいろのかぜ,bug,charge,60.0,-45,
+silver_wind,ぎんいろのかぜ,bug,charge,75,-45,
 lunge,とびかかる,bug,charge,60.0,-45,
 fell_stinger,とどめばり,bug,charge,20.0,-35,
 fury_cutter_fast,れんぞくぎり,bug,fast,3.0,4,1
@@ -60,7 +60,7 @@ dazzling_gleam,マジカルシャイン,fairy,charge,90.0,-55,
 moonblast,ムーンフォース,fairy,charge,110.0,-60,
 play_rough,じゃれつく,fairy,charge,90.0,-60,
 natures_madness,しぜんのいかり,fairy,charge,80.0,-50,
-charm_fast,あまえる,fairy,fast,13.0,8,3
+charm_fast,あまえる,fairy,fast,12,8,3
 fairy_wind_fast,ようせいのかぜ,fairy,fast,4.0,9,2
 geomancy_fast,ジオコントロール,fairy,fast,8.0,13,3
 cross_chop,クロスチョップ,fighting,charge,55.0,-35,
@@ -114,7 +114,7 @@ incinerate_fast,やきつくす,fire,fast,20.0,20,5
 drill_peck,ドリルくちばし,flying,charge,70.0,-40,
 aerial_ace,つばめがえし,flying,charge,60.0,-45,
 air_cutter,エアカッター,flying,charge,45.0,-35,
-hurricane,ぼうふう,flying,charge,110.0,-65,
+hurricane,ぼうふう,flying,charge,110.0,-60,
 brave_bird,ブレイブバード,flying,charge,130.0,-55,
 sky_attack,ゴッドバード,flying,charge,75.0,-50,
 aeroblast,エアロブラスト,flying,charge,170.0,-75,
@@ -123,7 +123,7 @@ feather_dance,フェザーダンス,flying,charge,35.0,-50,
 aeroblast_plus,エアロブラスト+,flying,charge,170.0,-75,
 aeroblast_plus_plus,エアロブラスト++,flying,charge,170.0,-75,
 acrobatics,アクロバット,flying,charge,110.0,-55,
-dragon_ascent,ガリョウテンセイ,flying,charge,150.0,-70,
+dragon_ascent,ガリョウテンセイ,flying,charge,110,-45,
 oblivion_wing,デスウイング,flying,charge,85.0,-50,
 bleakwind_storm,つばめがえし,flying,charge,60.0,-45,
 beak_blast,くちばしキャノン,flying,charge,110.0,-55,
@@ -154,7 +154,7 @@ solar_beam,ソーラービーム,grass,charge,150.0,-80,
 leaf_blade,リーフブレード,grass,charge,70.0,-35,
 power_whip,パワーウィップ,grass,charge,90.0,-50,
 grass_knot,くさむすび,grass,charge,90.0,-50,
-energy_ball,エナジーボール,grass,charge,90.0,-55,
+energy_ball,エナジーボール,grass,charge,80.0,-45,
 frenzy_plant,ハードプラント,grass,charge,100.0,-45,
 leaf_tornado,グラスミキサー,grass,charge,45.0,-40,
 leaf_storm,リーフストーム,grass,charge,130.0,-55,
@@ -168,14 +168,14 @@ bullet_seed_fast,タネマシンガン,grass,fast,5.0,13,3
 magical_leaf_fast,マジカルリーフ,grass,fast,10.0,10,3
 leafage_fast,このは,grass,fast,6.0,8,2
 dig,あなをほる,ground,charge,70.0,-50,
-earthquake,じしん,ground,charge,110.0,-65,
-drill_run,ドリルライナー,ground,charge,80.0,-45,
+earthquake,じしん,ground,charge,120,-65,
+drill_run,ドリルライナー,ground,charge,70.0,-40,
 bone_club,ホネこんぼう,ground,charge,55.0,-35,
 bulldoze,じならし,ground,charge,45.0,-45,
 mud_bomb,どろばくだん,ground,charge,65.0,-50,
 sand_tomb,すなじごく,ground,charge,40.0,-40,
 precipice_blades,だんがいのつるぎ,ground,charge,130.0,-60,
-earth_power,だいちのちから,ground,charge,90.0,-55,
+earth_power,だいちのちから,ground,charge,90.0,-50,
 high_horsepower,10まんばりき,ground,charge,100.0,-60,
 scorching_sands,ねっさのだいち,ground,charge,80.0,-50,
 sandsear_storm,ねっさのあらし,ground,charge,60.0,-45,
@@ -199,7 +199,7 @@ ice_shard_fast,こおりのつぶて,ice,fast,9.0,10,3
 frost_breath_fast,こおりのいぶき,ice,fast,7.0,5,2
 powder_snow_fast,こなゆき,ice,fast,6.0,8,2
 ice_fang_fast,こおりのキバ,ice,fast,8.0,6,2
-wrap,まきつく,normal,charge,60.0,-45,
+wrap,まきつく,normal,charge,70.0,-45,
 hyper_beam,はかいこうせん,normal,charge,150.0,-80,
 vice_grip,はさむ,normal,charge,70.0,-40,
 swift,スピードスター,normal,charge,55.0,-35,
@@ -271,7 +271,7 @@ meteor_beam,メテオビーム,rock,charge,120.0,-60,
 rock_throw_fast,いわおとし,rock,fast,8.0,5,2
 smack_down_fast,うちおとす,rock,fast,11.0,8,3
 rollout_fast,ころがる,rock,fast,7.0,13,3
-flash_cannon,ラスターカノン,steel,charge,110.0,-70,
+flash_cannon,ラスターカノン,steel,charge,110.0,-65,
 magnet_bomb,マグネットボム,steel,charge,70.0,-45,
 iron_head,アイアンヘッド,steel,charge,70.0,-50,
 gyro_ball,ジャイロボール,steel,charge,80.0,-50,
