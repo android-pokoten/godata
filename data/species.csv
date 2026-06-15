@@ -225,7 +225,7 @@ ponyta,ポニータ,fire,,170,127,137,"tackle_fast,ember_fast","flame_charge,fla
 ponyta_galarian,ポニータ,psychic,,170,127,137,"low_kick_fast,psycho_cut_fast","play_rough,psybeam,swift",ponyta_galarian,,,,,,77
 ponyta_normal,ポニータ,fire,,170,127,137,"tackle_fast,ember_fast","flame_charge,flame_wheel,stomp",ponyta_normal,,,,,,77
 rapidash,ギャロップ,fire,,207,162,163,"low_kick_fast,fire_spin_fast,incinerate_fast","fire_blast,drill_run,heat_wave,flame_charge,scorching_sands",,ember_fast,wild_charge,,PONYTA,1.0,78
-rapidash_galarian,ギャロップ,psychic,fairy,207,162,163,"low_kick_fast,psycho_cut_fast,fairy_wind_fast","play_rough,psychic,body_slam,megahorn,high_horsepower",rapidash_galarian,,,,,,78
+rapidash_galarian,ギャロップ,psychic,fairy,207,162,163,"low_kick_fast,psycho_cut_fast,fairy_wind_fast","play_rough,psychic,body_slam,megahorn,high_horsepower",rapidash_galarian,,wild_charge,,,,78
 rapidash_normal,ギャロップ,fire,,207,162,163,"low_kick_fast,fire_spin_fast,incinerate_fast","fire_blast,drill_run,heat_wave,flame_charge,scorching_sands",rapidash_normal,,,,,,78
 slowpoke,ヤドン,water,psychic,109,98,207,"water_gun_fast,confusion_fast","water_pulse,psyshock,psychic",,,,"SLOWBRO,SLOWKING",,1.0,79
 slowpoke_2020,ヤドン,water,psychic,109,98,207,"water_gun_fast,confusion_fast","water_pulse,psyshock,psychic",slowpoke_2020,,,,,,79
