@@ -153,14 +153,14 @@ def render_register():
     is_purified = st.checkbox("リトレーン")
 
     # --- ニックネーム ---
-    nickname = st.text_input("ニックネーム（任意）")
+    nickname = st.text_input("個体ID")
 
     # --- 登録行生成 ---
     if st.button("登録行を生成"):
         row = {
-            "individual_id": "",
+            "individual_id": nickname,
             "species_id": sp["species_id"],
-            "nickname": nickname,
+            "nickname": "",
             "iv_atk": iv_atk,
             "iv_def": iv_def,
             "iv_sta": iv_sta,
