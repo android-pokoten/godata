@@ -173,7 +173,7 @@ def build_added_moves(species_df, added_moves_dict):
     for sid, moves in added_moves_dict.items():
         sp = species_df[species_df["species_id"] == sid]
         if sp.empty:
-            print(f"{sid} が存在しません")
+            #print(f"{sid} が存在しません")
             continue
 
         row = sp.iloc[0]
