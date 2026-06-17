@@ -1,10 +1,31 @@
 import streamlit as st
 import pandas as pd
+import os
+import math
 
 from core.cpm import CPM
 from core.type import TYPE_CHART, TYPE_ORDER, TYPE_JA, TYPE_COLOR, type_with_underline, ja_to_en_type
 from core.param_calc import compute_cp_row, compute_scp_row, compute_hp_row, generate_template_individual
 from core.loader import load_species, load_moves, load_individuals, load_opponents
+
+note_path = "data/notes.csv"
+
+def load_notes():
+    if not os.path.exists(note_path):
+        return pd.DataFrame(columns=["individual_id", "memo"])
+    return pd.read_csv(note_path)
+
+def save_note(individual_id, memo):
+    notes = load_notes()
+
+    # 既存のメモを更新 or 新規追加
+    notes = notes[notes["individual_id"] != individual_id]
+    notes = pd.concat([
+        notes,
+        pd.DataFrame([{"individual_id": individual_id, "memo": memo}])
+    ])
+
+    notes.to_csv(note_path, index=False)
 
 # タイプ相性表
 def render_type_relations(species_row):
@@ -118,36 +139,37 @@ def render_detail():
     else:
         html2 = f"**タイプ2:**"
 
-    st.subheader("基本データ")
-    col1, col2 = st.columns(2)
+    #st.subheader("基本データ")
+    with st.expander("基本データ"):
+        col1, col2 = st.columns(2)
 
-    with col1:
-        st.write(f"**種族 ID:** {sp['species_id']}")
-        st.write(f"**名前:** {sp['name_ja']}")
-        st.markdown(html1, unsafe_allow_html=True)
-        st.markdown(html2, unsafe_allow_html=True)
+        with col1:
+            st.write(f"**種族 ID:** {sp['species_id']}")
+            st.write(f"**名前:** {sp['name_ja']}")
+            st.markdown(html1, unsafe_allow_html=True)
+            st.markdown(html2, unsafe_allow_html=True)
 
-    with col2:
-        st.write(f"**図鑑番号:** {int(sp['dex']):04d}")
-        st.write(f"**攻撃種族値:** {sp['base_atk']}")
-        st.write(f"**防御種族値:** {sp['base_def']}")
-        st.write(f"**ＨＰ種族値:** {sp['base_sta']}")
+        with col2:
+            st.write(f"**図鑑番号:** {int(sp['dex']):04d}")
+            st.write(f"**攻撃種族値:** {sp['base_atk']}")
+            st.write(f"**防御種族値:** {sp['base_def']}")
+            st.write(f"**ＨＰ種族値:** {sp['base_sta']}")
 
-    st.subheader("進化")
-    col1, col2 = st.columns(2)
+        st.subheader("進化")
+        col1, col2 = st.columns(2)
 
-    with col1:
-        st.write("進化前＜＜")
-        if sp["evolves_from"]:
-            st.code(f'{species[species["species_id"] == sp["evolves_from"].lower()].iloc[0]["name_ja"]}')
+        with col1:
+            st.write("進化前＜＜")
+            if sp["evolves_from"]:
+                st.code(f'{species[species["species_id"] == sp["evolves_from"].lower()].iloc[0]["name_ja"]}')
 
-    with col2:
-        st.write("＞＞進化先")
-        if sp["evolves_to"]:
-            next_forms = sp["evolves_to"].split(",")
-            for evo in next_forms:
-                evo = species[species["species_id"] == evo.strip().lower()].iloc[0]["name_ja"]
-                st.code(f"{evo}")
+        with col2:
+            st.write("＞＞進化先")
+            if sp["evolves_to"]:
+                next_forms = sp["evolves_to"].split(",")
+                for evo in next_forms:
+                    evo = species[species["species_id"] == evo.strip().lower()].iloc[0]["name_ja"]
+                    st.code(f"{evo}")
 
     # タイプ相性
     render_type_relations(sp)
@@ -254,7 +276,7 @@ def render_detail():
 
         # fast_move の日本語名を結合
         indiv = indiv.merge(
-            moves[["move_id", "name_ja"]].rename(columns={"name_ja": "fast_move_ja"}),
+            moves[["move_id", "name_ja", "type"]].rename(columns={"name_ja": "fast_move_ja", "type": "fast_move_type"}),
             how="left",
             left_on="fast_move",
             right_on="move_id"
@@ -262,7 +284,7 @@ def render_detail():
         
         # charge_move1 の日本語名
         indiv = indiv.merge(
-            moves[["move_id", "name_ja"]].rename(columns={"name_ja": "charge_move1_ja"}),
+            moves[["move_id", "name_ja", "type"]].rename(columns={"name_ja": "charge_move1_ja", "type": "charge_move1_type"}),
             how="left",
             left_on="charge_move1",
             right_on="move_id"
@@ -270,36 +292,88 @@ def render_detail():
         
         # charge_move2 の日本語名
         indiv = indiv.merge(
-            moves[["move_id", "name_ja"]].rename(columns={"name_ja": "charge_move2_ja"}),
+            moves[["move_id", "name_ja", "type"]].rename(columns={"name_ja": "charge_move2_ja", "type": "charge_move2_type"}),
             how="left",
             left_on="charge_move2",
             right_on="move_id"
         ).drop(columns=["move_id"])
 
-        # 最速ターン計算
-        def compute_turns(row, special_col):
-            fast_id = sp["fast_moves"].split(",")[0] # 代表の速技（1つ目）
-            fast = moves[moves["move_id"] == fast_id].iloc[0]
-            
-            charge_id = row[special_col]
-            if pd.isna(charge_id):
-                return None
-                
-            charge = moves[moves["move_id"] == charge_id].iloc[0]
-            
-            ept = fast["energy"] / fast["turns"]
-            need = abs(charge["energy"])
-            
-            return int((need + ept - 1) // ept)
+        indiv = indiv.fillna(0)
+        notes = load_notes()
+        NUM_COLS = 3
+        cols = st.columns(NUM_COLS)
 
-        indiv["special1_turns"] = indiv.apply(lambda r: compute_turns(r, "charge_move1"), axis=1)
-        indiv["special2_turns"] = indiv.apply(lambda r: compute_turns(r, "charge_move2"), axis=1)
+        for i, (_, row) in enumerate(indiv.iterrows()):
+            col = cols[i % NUM_COLS]
 
-        st.table(indiv[[
-            "individual_id", "CP", "SCP", "HP", "fast_move_ja", 
-            "charge_move1_ja", "special1_turns", "charge_move2_ja", "special2_turns",
-            "iv_atk", "iv_def", "iv_sta", "level"
-        ]])
+            with col:
+                # スペシャルわざのゲージを表示
+                def render_charge_gauge(energy, turn, cost, fast_type, charge_type):
+                    energy = abs(int(float(energy)))
+                    turn = abs(int(float(turn)))
+                    cost = abs(int(float(cost)))
+
+                    fast_times = ((cost +  energy - 1) // energy)
+                    total_turn = fast_times * turn
+                    
+                    blocks = []
+                    for i in range(1, total_turn + 1):
+                        blocks.append('■')
+                        if i % turn == 0:
+                            blocks.append('|')
+                        else:
+                            blocks.append(' ')
+                        
+                    guage = "".join(blocks)
+                    st.markdown(
+                        f'<span style="color: {TYPE_COLOR[fast_type]};">{guage}</span><span style="color: {TYPE_COLOR[charge_type]};">[{total_turn} turns/ {fast_times} times]</span>',
+                        unsafe_allow_html=True
+                    )
+
+                # わざのタイプを色分け
+                def draw_types(move_type, move_name, tooltip):
+                    st.markdown(
+                        f'(<span title="{tooltip}" style="background: linear-gradient(to bottom, transparent 65%,  {TYPE_COLOR[move_type]} 85%, transparent 100%);">{TYPE_JA[move_type]}</span>) {move_name}',
+                        unsafe_allow_html=True
+                    )
+
+                st.write(f"{row["individual_id"]}")
+                st.write(f"CP: **{row["CP"]}** / SCP: **{row["SCP"]}**")
+                st.write(f"HP: **{row["HP"]}**")
+                st.write(f"個体値: **{row["iv_atk"]}** / **{row["iv_def"]}** / **{row["iv_sta"]}**")
+
+                # わざ未登録のデータがある場合はわざデータ処理をスキップ
+                if bool(row["fast_move_ja"]):
+
+                    # ツールチップ用テキスト
+                    fast_move_data = fast_move_list[fast_move_list["move_id"] == row["fast_move"]].iloc[0]
+                    fast_move_text = f"ダメージ: {fast_move_data["power_stab"]} / エネルギー: {fast_move_data["energy"]} / DPT: {fast_move_data["dpt"]} / EPT: {fast_move_data["ept"]}"
+
+                    charge_move1_data = charge_moves[charge_moves["move_id"] == row["charge_move1"]].iloc[0]
+                    charge_move1_text = f"ダメージ: {charge_move1_data["power_stab"]} / エネルギー: {charge_move1_data["energy"]} / DPE: {charge_move1_data["dpe"]}"
+
+                    charge_move2_data = charge_moves[charge_moves["move_id"] == row["charge_move2"]].iloc[0]
+                    charge_move2_text = f"ダメージ: {charge_move2_data["power_stab"]} / エネルギー: {charge_move2_data["energy"]} / DPE: {charge_move2_data["dpe"]}"
+
+                    draw_types(row["fast_move_type"], row["fast_move_ja"], fast_move_text)
+                    draw_types(row["charge_move1_type"], row["charge_move1_ja"], charge_move1_text)
+                    render_charge_gauge(fast_move_data["energy"], fast_move_data["turns"], charge_move1_data["energy"], row["fast_move_type"], row["charge_move1_type"])
+                    draw_types(row["charge_move2_type"], row["charge_move2_ja"], charge_move2_text)
+                    render_charge_gauge(fast_move_data["energy"], fast_move_data["turns"], charge_move2_data["energy"], row["fast_move_type"], row["charge_move2_type"])
+
+                # 既存メモを取得
+                sid = row["individual_id"]
+                existing = notes[notes["individual_id"] == sid]
+                memo_text = existing["memo"].iloc[0] if not existing.empty else ""
+
+                # メモ入力欄
+                memo = st.text_area("メモ（100文字まで）", memo_text, max_chars=100, key=f"{sid}_txt")
+
+                # 保存ボタン
+                if st.button("メモを保存", key=f"{sid}_but"):
+                    save_note(sid, memo)
+                    st.success("保存しました！")
+
 
     # テンプレ個体データ
     opponents = load_opponents()
