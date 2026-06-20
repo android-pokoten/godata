@@ -2087,7 +2087,7 @@ ironmoth,テツノドクガ,fire,poison,281,196,190,splash_fast,struggle,,,,,,,9
 ironthorns,テツノイバラ,rock,electric,250,200,225,splash_fast,struggle,,,,,,,995
 frigibax,セビエ,dragon,ice,134,86,163,"dragon_breath_fast,ice_fang_fast","dragon_claw,avalanche,outrage,icy_wind",,,,ARCTIBAX,,,996
 arctibax,セゴール,dragon,ice,173,128,207,"dragon_breath_fast,ice_fang_fast","dragon_claw,avalanche,outrage,icy_wind",,,,BAXCALIBUR,FRIGIBAX,,997
-baxcalibur,セグレイブ,dragon,ice,254,168,229,"dragon_breath_fast,ice_fang_fast","dragon_claw,avalanche,outrage,blizzard,icy_wind",,,,,ARCTIBAX,,998
+baxcalibur,セグレイブ,dragon,ice,254,168,229,"dragon_breath_fast,ice_fang_fast","dragon_claw,avalanche,outrage,blizzard,icy_wind",,,glaive_rush,,ARCTIBAX,,998
 gimmighoul,コレクレー,ghost,,140,76,128,astonish_fast,shadow_ball,,,,GHOLDENGO,,,999
 gimmighoul_normal,コレクレー,ghost,,140,76,128,astonish_fast,shadow_ball,gimmighoul_normal,,,,,,999
 gholdengo,サーフゴー,steel,ghost,252,190,202,"astonish_fast,hex_fast","shadow_ball,dazzling_gleam,focus_blast,power_gem",,,,,GIMMIGHOUL,,1000
