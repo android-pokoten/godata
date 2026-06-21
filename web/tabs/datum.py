@@ -3,6 +3,7 @@ import pandas as pd
 
 from core.loader import load_species, load_moves, load_individuals, load_opponents
 from tabs.season_effect import render_season_effect
+from tabs.edit import render_editer
 
 @st.fragment
 def render_datum():
@@ -11,7 +12,6 @@ def render_datum():
         "種族値": render_species, 
         "わざ": render_moves, 
         "シーズン調整一覧": render_season_effect,
-        "テンプレ個体": render_opponents,
         "タイプ相性表": render_typechart,
     }
 
@@ -57,15 +57,6 @@ def render_moves():
         df_filtered = df_filtered[(df_filtered["energy"] == sp_ene_filter) & (df_filtered["category"] == "charge")]
 
     st.dataframe(df_filtered, width='stretch')
-
-# テンプレ個体一覧
-def render_opponents():
-    st.header("テンプレ個体データ")
-
-    opponents = load_opponents()
-    opponents = opponents.sort_values("individual_id")
-
-    st.table(opponents)
 
 # タイプ相性表
 def render_typechart():

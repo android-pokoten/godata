@@ -4,6 +4,7 @@ import pandas as pd
 from core.simulator import simulate, list_move_damage_both
 from core.loader import load_species, load_individuals, load_moves, load_opponents
 from tabs.party_sim import render_3vs3_simulator
+from tabs.edit import render_editer
 
 # バトルログのパス
 battle_log_path = "data/battle_log.csv"
@@ -14,9 +15,11 @@ def render_simulator():
         "1 vs 1": render_1vs1_simulator, 
         "マッチアップ": render_matchup, 
         "バトルログ登録": battle_log_tab,
-        "バトルログ参照": battle_log_viewer_tab,
+        "バトルログ閲覧": battle_log_viewer_tab,
         "バトルログ分析": analyse_log_tab,
+        "バトルログ編集": edit_log_tab,
         "3 vs 3": render_3vs3_simulator,
+        "相手用テンプレ個体編集": edit_opponet_tab,
     }
 
     tab_objects = st.tabs(list(tabs.keys()))
@@ -590,3 +593,21 @@ def battle_log_viewer_tab():
         })
 
         st.dataframe(df_opp_all)
+
+# バトルログ修正
+@st.fragment
+def edit_log_tab():
+    csv_files = {
+        "対戦ログ(battle_log.csv)": "data/battle_log.csv",
+    }
+
+    render_editer(csv_files)
+
+# テンプレ個体修正
+@st.fragment
+def edit_opponet_tab():
+    csv_files = {
+        "対戦相手データ (opponents.csv)": "data/opponents.csv",
+    }
+
+    render_editer(csv_files)

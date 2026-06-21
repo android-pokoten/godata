@@ -11,6 +11,7 @@ from core.param_calc import compute_cp_row, compute_scp_row, compute_hp_row
 from core.loader import load_species, load_moves, load_individuals
 
 from tabs.cup_filter import render_cup_filter
+from tabs.edit import render_editer
 
 def calc_stats(species_row, iv_atk, iv_def, iv_sta, level):
     cpm = CPM[level]
@@ -38,6 +39,7 @@ def render_individuals():
         "CP1,500調整": render_max1500, 
         "対面評価": render_matchup_tab,
         "特殊カップ": render_cup_filter,
+        "手持ちデータ修正": render_iv_editor, 
     }
 
     tab_objects = st.tabs(list(tabs.keys()))
@@ -213,3 +215,12 @@ def render_matchup_tab():
     st.write("### 手持ちの中で有利な順ランキング")
     st.dataframe(df, width='stretch')
 
+# 手持ちデータ修正
+@st.fragment
+def render_iv_editor():
+    csv_files = {
+        "個体データ (individuals.csv)": "data/individuals.csv",
+    }
+
+    render_editer(csv_files)
+    
