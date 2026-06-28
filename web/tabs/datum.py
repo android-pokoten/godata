@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 
 from core.loader import load_species, load_moves, load_individuals, load_opponents
+from core.type import TYPE_JA, TYPE_EN
 from tabs.season_effect import render_season_effect
 from tabs.edit import render_editer
 
@@ -30,7 +31,12 @@ def render_species():
     st.dataframe(species)
 
 # わざ一覧
+@st.fragment
 def render_moves():
+    MODE_ALL = "両方"
+    MOVE_FAST = "ノーマル"
+    MOVE_CHARGE = "スペシャル"
+
     st.header("わざデータ")
 
     moves = load_moves()
@@ -49,12 +55,64 @@ def render_moves():
     moves.loc[fast_mask, "dpe"] = (moves.loc[fast_mask, "power"] / moves.loc[fast_mask, "energy"].abs()).round(1)
 
     st.subheader("フィルター")
-    sp_ene_filter = st.selectbox("スペシャルわざのエネルギー", ["-", -35, -40, -45, -50, -55])
+    col1, col2 = st.columns(2)
+    with col1:
+        # わざの種類
+        move_modes = st.radio(
+            "表示するわざの種類",
+            [MODE_ALL, MOVE_FAST, MOVE_CHARGE],
+            horizontal=True
+        )
+    with col2:
+        # わざのタイプ
+        type_ja = list(TYPE_JA.values())
+        type_selection = st.selectbox(
+            "表示するわざのタイプ",
+            ["ALL"] + type_ja   
+        )
+
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        # ノーマルわざのEPT
+        options = [None, 3.0, 4.0]
+        ept_filter = st.selectbox(
+            "ノーマルわざのEPT",
+            options=options,
+            format_func=lambda x: "制限なし" if x is None else f"{x} 以上"
+            )
+    with col2:
+        # スペシャルわざのDPE
+        options = [None, 1.5, 2.0, 2.5]
+        dpe_filter = st.selectbox(
+            "スペシャルわざのDPE",
+            options=options,
+            format_func=lambda x: "制限なし" if x is None else f"{x} 以上"
+            )
+    with col3:
+        # スペシャルわざのエネルギー
+        options = [None, -35, -40, -45, -50, -55]
+        sp_ene_filter = st.selectbox(
+            "スペシャルわざのエネルギー",
+            options=options,
+            format_func=lambda x: "制限なし" if x is None else f"{x} 以上"
+            )
     
     df_filtered = moves.copy()
 
-    if sp_ene_filter != "-":
+    if move_modes == MOVE_FAST:
+        df_filtered = df_filtered[df_filtered["category"] == "fast"]
+    elif move_modes == MOVE_CHARGE:
+        df_filtered = df_filtered[df_filtered["category"] == "charge"]
+
+    if type_selection != "ALL":
+        df_filtered = df_filtered[df_filtered["type"] == TYPE_EN[type_selection]]
+
+    if sp_ene_filter is not None:
         df_filtered = df_filtered[(df_filtered["energy"] == sp_ene_filter) & (df_filtered["category"] == "charge")]
+    elif dpe_filter is not None:
+        df_filtered = df_filtered[(df_filtered["dpe"] >= dpe_filter) & (df_filtered["category"] == "charge")]
+    elif ept_filter is not None:
+        df_filtered = df_filtered[(df_filtered["ept"] >= ept_filter) & (df_filtered["category"] == "fast")]
 
     st.dataframe(df_filtered, width='stretch')
 
