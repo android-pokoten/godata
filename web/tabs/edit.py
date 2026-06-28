@@ -31,7 +31,7 @@ def render_editer(csv_files=CSV_FILES):
     edited_df = st.data_editor(
         df,
         num_rows="dynamic",
-        use_container_width=True
+        width="stretch"
     )
 
     # ④ 保存ボタン
