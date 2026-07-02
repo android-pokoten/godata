@@ -31,13 +31,13 @@ def render_max1500():
 
         # PL1〜50 を探索
         for level, cpm in CPM.items():
-            cp = calc_cp(base_atk, base_def, base_sta, iv_atk, iv_def, iv_sta, level)
+            cp = calc_cp(base_atk, base_def, base_sta, iv_atk, iv_def, iv_sta, level, row["is_shadow"])
             if cp <= 1500:
                 best_level = level
                 best_cp = cp
                 best_hp = calc_hp(base_sta, iv_sta, cpm)
 
-        scp = calc_scp(base_atk, base_def, base_sta, iv_atk, iv_def, iv_sta, best_level)
+        scp = calc_scp(base_atk, base_def, base_sta, iv_atk, iv_def, iv_sta, best_level, row["is_shadow"])
 
         results.append({
             "individual_id": row["individual_id"],

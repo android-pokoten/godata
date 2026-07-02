@@ -16,7 +16,20 @@ def load_moves():
     return pd.read_csv("data/moves.csv")
 
 def load_individuals():
-    return pd.read_csv("data/individuals.csv")
+    df = pd.read_csv("data/individuals.csv")
+
+    # NaN を False に置き換え
+    df["is_shadow"] = (
+        df["is_shadow"]
+            .fillna(False)
+            .map(lambda x: True if x in [True, "True", 1] else False)
+    )
+    df["is_purified"] = (
+        df["is_purified"]
+            .fillna(False)
+            .map(lambda x: True if x in [True, "True", 1] else False)
+    )
+    return df
 
 def load_opponents():
     return pd.read_csv("data/opponents.csv")

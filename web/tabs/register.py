@@ -77,34 +77,13 @@ def render_register():
     for name in charge_moves_selected:
         charge_move_ids.append(charge_df[charge_df["name_ja"] == name].iloc[0]["move_id"])
 
+    # --- シャドウ/リトレーン ---
+    st.subheader("状態")
+    is_shadow = st.checkbox("シャドウ")
+    is_purified = st.checkbox("リトレーン")
+
     # --- 個体値 ---
     st.subheader("個体値")
-
-    # 個体値選択用ボタン
-    def iv_selector(label, default=15):
-        col1, col2 = st.columns([0.1, 0.9])
-        with col1:
-            st.write(f"**{label}**")
-
-        with col2:
-            selected = st.session_state.get(f"iv_{label}", default)
-            cols = st.columns(16)
-
-            for i in range(16):
-                key = f"{label}_{i}"
-                # i が selected 以下ならオレンジ色
-                css_class = "primary" if i <= selected else "secondary"
-
-                if cols[i].button(
-                    str(i),
-                    key=key,
-                    help=f"{label} = {i}",
-                    type=css_class
-                ):
-                    st.session_state[f"iv_{label}"] = i
-                    selected = i
-
-        return selected
 
     col1, col2, col3 = st.columns(3)
     with col1:
@@ -132,7 +111,7 @@ def render_register():
     # --- CPからレベルを計算 ---
     cp_input = st.number_input("CP (レベル逆算する場合)", min_value=0, max_value=6000, value=0)
     if cp_input > 0:
-        level = calc_level_from_cp(sp["species_id"], iv_atk, iv_def, iv_sta, cp_input)
+        level = calc_level_from_cp(sp["species_id"], iv_atk, iv_def, iv_sta, cp_input, is_shadow)
         st.write(f"推定レベル: **{level}**")
 
     # --- 個体値からCP1500に最も近いレベルを求める
@@ -143,14 +122,9 @@ def render_register():
 
         best_level, best_cp, best_hp = find_best_level_for_cp1500(
             base_atk, base_def, base_sta,
-            iv_atk, iv_def, iv_sta
+            iv_atk, iv_def, iv_sta, is_shadow
         )
         st.success(F"最適レベル: {best_level} / CP: {best_cp}")
-
-    # --- シャドウ/リトレーン ---
-    st.subheader("状態")
-    is_shadow = st.checkbox("シャドウ")
-    is_purified = st.checkbox("リトレーン")
 
     # --- ニックネーム ---
     nickname = st.text_input("個体ID")

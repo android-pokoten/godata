@@ -93,6 +93,11 @@ def render_iv_checker():
 
         st.markdown(html, unsafe_allow_html=True)
 
+    # --- シャドウ/リトレーン ---
+    st.subheader("状態")
+    is_shadow = st.checkbox("シャドウ", key="shadow_c")
+    is_purified = st.checkbox("リトレーン", key="purify_c")
+
     # --- 個体値 ---
     st.subheader("個体値")
 
@@ -122,7 +127,7 @@ def render_iv_checker():
 
     cp_input = st.number_input("表示されている CP", min_value=0, max_value=6000, value=0)
     if cp_input > 0:
-        level = calc_level_from_cp(sp["species_id"], iv_atk, iv_def, iv_sta, cp_input)
+        level = calc_level_from_cp(sp["species_id"], iv_atk, iv_def, iv_sta, cp_input, is_shadow)
         st.write(f"推定レベル: **{level}**")
     else:
         level = 0
@@ -146,7 +151,7 @@ def render_iv_checker():
 
                 evo_best_level, evo_best_cp, evo_best_hp = find_best_level_for_cp1500(
                     evo_atk, evo_def, evo_sta,
-                    iv_atk, iv_def, iv_sta
+                    iv_atk, iv_def, iv_sta, is_shadow
                 )
                 evo_rank_1500, evo_rank_2500 = calc_pvp_rank(evo.strip().lower(), iv_atk, iv_def, iv_sta)
                 st.success(f'{evo_sp["name_ja"]} に進化した場合の推定CP: **{evo_cp}** / スーパーリーグ用 CP {evo_best_cp} ({evo_rank_1500}位)')
@@ -161,8 +166,4 @@ def render_iv_checker():
             evo_sps = species[species["species_id"] == evo.strip().lower()].iloc[0]
             write_evo_cp(evo_sps)
 
-    # --- シャドウ/リトレーン ---
-    st.subheader("状態")
-    is_shadow = st.checkbox("シャドウ", key="shadow_c")
-    is_purified = st.checkbox("リトレーン", key="purify_c")
 
