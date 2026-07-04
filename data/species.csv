@@ -1860,7 +1860,7 @@ raboot,ラビフット,fire,,170,125,163,"tackle_fast,fire_spin_fast","flame_cha
 cinderace,エースバーン,fire,,238,163,190,"tackle_fast,fire_spin_fast","flame_charge,flamethrower,focus_blast,pyro_ball",,,,,RABOOT,,815
 sobble,メッソン,water,,132,79,137,"pound_fast,water_gun_fast","water_pulse,surf",,,,DRIZZILE,,,816
 drizzile,ジメレオン,water,,186,113,163,"pound_fast,water_gun_fast","water_pulse,surf",,,,INTELEON,SOBBLE,,817
-inteleon,インテレオン,water,,262,142,172,"pound_fast,water_gun_fast","water_pulse,surf,shadow_ball",,,,,DRIZZILE,,818
+inteleon,インテレオン,water,,262,142,172,"pound_fast,water_gun_fast","water_pulse,surf,shadow_ball,snipe_shot",,,hydro_cannon,,DRIZZILE,,818
 skwovet,ホシガリス,normal,,95,86,172,"tackle_fast,bite_fast,bullet_seed_fast","body_slam,crunch,trailblaze",,,,GREEDENT,,,819
 greedent,ヨクバリス,normal,,160,156,260,"tackle_fast,bite_fast,bullet_seed_fast,mud_shot_fast","body_slam,crunch,trailblaze",,,,,SKWOVET,,820
 rookidee,ココガラ,flying,,88,67,116,"peck_fast,air_slash_fast,sand_attack_fast","sky_attack,payback",,,,CORVISQUIRE,,,821
