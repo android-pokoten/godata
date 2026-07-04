@@ -154,7 +154,7 @@ def render_iv_checker():
                     iv_atk, iv_def, iv_sta, is_shadow
                 )
                 evo_rank_1500, evo_rank_2500 = calc_pvp_rank(evo.strip().lower(), iv_atk, iv_def, iv_sta)
-                st.success(f'{evo_sp["name_ja"]} に進化した場合の推定CP: **{evo_cp}** / スーパーリーグ用 CP {evo_best_cp} ({evo_rank_1500}位)')
+                st.success(f'{evo_sp["name_ja"]} に進化した場合の推定CP: **{evo_cp}** / スーパーリーグ用 CP {evo_best_cp} / LV {evo_best_level} ({evo_rank_1500}位)')
 
     # 進化後のCPを表示
     write_evo_cp(sp)
