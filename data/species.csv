@@ -130,7 +130,7 @@ clefairy_normal,ピッピ,fairy,,107,108,172,"pound_fast,zen_headbutt_fast","dis
 clefable,ピクシー,fairy,,178,162,216,"charge_beam_fast,zen_headbutt_fast,charm_fast,fairy_wind_fast","dazzling_gleam,psychic,moonblast,meteor_mash,swift,draining_kiss",,pound_fast,,,CLEFAIRY,1.0,36
 clefable_normal,ピクシー,fairy,,178,162,216,"charge_beam_fast,zen_headbutt_fast,charm_fast,fairy_wind_fast","dazzling_gleam,psychic,moonblast,meteor_mash,swift,draining_kiss",clefable_normal,,,,,,36
 vulpix,ロコン,fire,,96,109,116,"quick_attack_fast,ember_fast","body_slam,flamethrower,flame_charge,weather_ball_fire",,,,NINETALES,,1.0,37
-vulpix_alola,ロコン,ice,,96,109,116,"zen_headbutt_fast,powder_snow_fast","dark_pulse,ice_beam,blizzard,weather_ball_ice",vulpix_alola,,,,,,37
+vulpix_alola,ロコン,ice,,96,109,116,"zen_headbutt_fast,powder_snow_fast","dark_pulse,ice_beam,blizzard,weather_ball_ice",vulpix_alola,,,NINETALES_ALOLA,,,37
 vulpix_normal,ロコン,fire,,96,109,116,"quick_attack_fast,ember_fast","body_slam,flamethrower,flame_charge,weather_ball_fire",vulpix_normal,,,,,,37
 ninetales,キュウコン,fire,,169,190,177,"feint_attack_fast,fire_spin_fast","heat_wave,overheat,solar_beam,psyshock,weather_ball_fire,scorching_sands",,ember_fast,"fire_blast,flamethrower,energy_ball",,VULPIX,1.0,38
 ninetales_alola,キュウコン,ice,fairy,170,193,177,"feint_attack_fast,powder_snow_fast,charm_fast","dazzling_gleam,ice_beam,blizzard,psyshock,weather_ball_ice",ninetales_alola,,,,,,38
