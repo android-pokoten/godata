@@ -37,7 +37,7 @@ def calc_hp(base_sta, iv_sta, cpm):
 # 列ごとのCP計算
 def compute_cp_row(row):    
     # 種族データ
-    sp = species[species["species_id"] == row["species_id"]].iloc[0]
+    sp_rows = species[species["species_id"] == row["species_id"]]
     if sp_rows.empty:
         return None
     sp = sp_rows.iloc[0]
@@ -56,7 +56,7 @@ def compute_cp_row(row):
 # 列ごとのSCP計算
 def compute_scp_row(row):
     # 種族データ
-    sp = species[species["species_id"] == row["species_id"]].iloc[0]
+    sp_rows = species[species["species_id"] == row["species_id"]]
     if sp_rows.empty:
         return None
     sp = sp_rows.iloc[0]
@@ -74,7 +74,7 @@ def compute_scp_row(row):
 # 列ごとのHO計算
 def compute_hp_row(row):
     # 種族データ
-    sp = species[species["species_id"] == row["species_id"]].iloc[0]
+    sp_rows = species[species["species_id"] == row["species_id"]]
     if sp_rows.empty:
         return None
     sp = sp_rows.iloc[0]
