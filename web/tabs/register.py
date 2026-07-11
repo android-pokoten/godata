@@ -79,8 +79,8 @@ def render_register():
 
     # --- シャドウ/リトレーン ---
     st.subheader("状態")
-    is_shadow = st.checkbox("シャドウ")
-    is_purified = st.checkbox("リトレーン")
+    is_shadow = st.checkbox("シャドウ", key="is_shadow_regist")
+    is_purified = st.checkbox("リトレーン", key="is_purify_regist")
 
     # --- 個体値 ---
     st.subheader("個体値")
@@ -111,7 +111,7 @@ def render_register():
     # --- CPからレベルを計算 ---
     cp_input = st.number_input("CP (レベル逆算する場合)", min_value=0, max_value=6000, value=0)
     if cp_input > 0:
-        level = calc_level_from_cp(sp["species_id"], iv_atk, iv_def, iv_sta, cp_input, is_shadow)
+        level = calc_level_from_cp(sp["species_id"], iv_atk, iv_def, iv_sta, cp_input)
         st.write(f"推定レベル: **{level}**")
 
     # --- 個体値からCP1500に最も近いレベルを求める
@@ -122,7 +122,7 @@ def render_register():
 
         best_level, best_cp, best_hp = find_best_level_for_cp1500(
             base_atk, base_def, base_sta,
-            iv_atk, iv_def, iv_sta, is_shadow
+            iv_atk, iv_def, iv_sta
         )
         st.success(F"最適レベル: {best_level} / CP: {best_cp}")
 

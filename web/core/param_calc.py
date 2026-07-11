@@ -4,7 +4,7 @@ from core.loader import load_species, load_moves, load_individuals
 species = load_species()
 
 # CP計算関数
-def calc_cp(base_atk, base_def, base_sta, atk_iv, def_iv, sta_iv, level, is_shadow=False):
+def calc_cp(base_atk, base_def, base_sta, atk_iv, def_iv, sta_iv, level):
     cpm = CPM.get(level, None)
     if cpm is None:
         return None
@@ -13,16 +13,12 @@ def calc_cp(base_atk, base_def, base_sta, atk_iv, def_iv, sta_iv, level, is_shad
     D = base_def + def_iv
     S = base_sta + sta_iv
 
-    # シャドウ補正
-    if is_shadow:
-        A, D = apply_shadow_modifier(A, D)
-
     #print(f"{A} {D} {S} {level} {cpm}")
     cp = (A * (D ** 0.5) * (S ** 0.5) * (cpm ** 2)) / 10
     return max(10, int(cp))
 
 # SCP計算関数
-def calc_scp(base_atk, base_def, base_sta, atk_iv, def_iv, sta_iv, level, is_shadow=False):
+def calc_scp(base_atk, base_def, base_sta, atk_iv, def_iv, sta_iv, level):
     cpm = CPM.get(level, None)
     if cpm is None:
         return None
@@ -30,10 +26,6 @@ def calc_scp(base_atk, base_def, base_sta, atk_iv, def_iv, sta_iv, level, is_sha
     A = (base_atk + atk_iv) * cpm
     D = (base_def + def_iv) * cpm
     HP = int((base_sta + sta_iv) * cpm)
-
-    # シャドウ補正
-    if is_shadow:
-        A, D = apply_shadow_modifier(A, D)
 
     score = int(((A * D * HP) ** (2/3)) / 10)
     return score
@@ -55,8 +47,7 @@ def compute_cp_row(row):
         atk_iv=row["iv_atk"],
         def_iv=row["iv_def"],
         sta_iv=row["iv_sta"],
-        level=row["level"],
-        is_shadow=row["is_shadow"]
+        level=row["level"]
     )
 
 # 列ごとのSCP計算
@@ -71,8 +62,7 @@ def compute_scp_row(row):
         atk_iv=row["iv_atk"],
         def_iv=row["iv_def"],
         sta_iv=row["iv_sta"],
-        level=row["level"],
-        is_shadow=row["is_shadow"]
+        level=row["level"]
     )
 
 # 列ごとのHO計算
@@ -91,7 +81,7 @@ def compute_hp_row(row):
     return max(10, hp)
 
 # CPからレベルを逆算
-def calc_level_from_cp(species_id, iv_atk, iv_def, iv_sta, target_cp, is_shadow):
+def calc_level_from_cp(species_id, iv_atk, iv_def, iv_sta, target_cp):
     import math
 
     # 種族データ
@@ -109,10 +99,6 @@ def calc_level_from_cp(species_id, iv_atk, iv_def, iv_sta, target_cp, is_shadow)
         defense = (def_base + iv_def) * cpm
         stamina = math.floor((sta_base + iv_sta) * cpm)
 
-        # シャドウ補正
-        if is_shadow:
-            atk, defense = apply_shadow_modifier(atk, defense)
-
         cp = math.floor(atk * math.sqrt(defense) * math.sqrt(stamina) / 10)
 
         diff = abs(cp - target_cp)
@@ -123,7 +109,7 @@ def calc_level_from_cp(species_id, iv_atk, iv_def, iv_sta, target_cp, is_shadow)
     return best_level
 
 # CP1500に最も近いレベルを求める
-def find_best_level_for_cp1500(base_atk, base_def, base_sta, iv_a, iv_d, iv_s, is_shadow):
+def find_best_level_for_cp1500(base_atk, base_def, base_sta, iv_a, iv_d, iv_s):
     import math
     
     target_cp = 1500
@@ -135,10 +121,6 @@ def find_best_level_for_cp1500(base_atk, base_def, base_sta, iv_a, iv_d, iv_s, i
         atk = (base_atk + iv_a) * cpm
         defense = (base_def + iv_d) * cpm
         stamina = (base_sta + iv_s) * cpm
-
-        # シャドウ補正
-        if is_shadow:
-            atk, defense = apply_shadow_modifier(atk, defense)
 
         cp = math.floor(atk * math.sqrt(defense) * math.sqrt(stamina) / 10)
         hp = calc_hp(base_sta, iv_s, cpm)
