@@ -109,10 +109,10 @@ raichu,ライチュウ,electric,,193,151,155,"volt_switch_fast,spark_fast,charm_
 raichu_alola,ライチュウ,electric,psychic,201,154,155,"volt_switch_fast,spark_fast,thunder_shock_fast","psychic,thunder_punch,wild_charge,grass_knot,trailblaze,surf,psyshock",raichu_alola,,,,,,26
 raichu_normal,ライチュウ,electric,,193,151,155,"volt_switch_fast,spark_fast,charm_fast,thunder_shock_fast","brick_break,thunder_punch,wild_charge,skull_bash,trailblaze,surf",raichu_normal,,,,,,26
 sandshrew,サンド,ground,,126,120,137,"scratch_fast,mud_shot_fast,sand_attack_fast","dig,rock_slide,sand_tomb",,,rock_tomb,SANDSLASH,,1.0,27
-sandshrew_alola,サンド,ice,steel,125,129,137,"metal_claw_fast,powder_snow_fast","blizzard,gyro_ball,night_slash",sandshrew_alola,,,,,,27
+sandshrew_alola,サンド,ice,steel,125,129,137,"metal_claw_fast,powder_snow_fast","blizzard,gyro_ball,night_slash",sandshrew_alola,,,SANDSLASH_ALOLA,,,27
 sandshrew_normal,サンド,ground,,126,120,137,"scratch_fast,mud_shot_fast,sand_attack_fast","dig,rock_slide,sand_tomb",sandshrew_normal,,,,,,27
 sandslash,サンドパン,ground,,182,175,181,"metal_claw_fast,mud_shot_fast,sand_attack_fast","earthquake,rock_tomb,bulldoze,scorching_sands",,,night_slash,,SANDSHREW,1.0,28
-sandslash_alola,サンドパン,ice,steel,177,195,181,"metal_claw_fast,powder_snow_fast","blizzard,gyro_ball,bulldoze,ice_punch,drill_run,aerial_ace",sandslash_alola,shadow_claw_fast,,,,,28
+sandslash_alola,サンドパン,ice,steel,177,195,181,"metal_claw_fast,powder_snow_fast","blizzard,gyro_ball,bulldoze,ice_punch,drill_run,aerial_ace",sandslash_alola,shadow_claw_fast,,,SANDSHREW_ALOLA,,28
 sandslash_normal,サンドパン,ground,,182,175,181,"metal_claw_fast,mud_shot_fast,sand_attack_fast","earthquake,rock_tomb,bulldoze,scorching_sands",sandslash_normal,,,,,,28
 nidoran_female,ニドラン(♀),poison,,86,89,146,"bite_fast,poison_sting_fast","poison_fang,body_slam,sludge_bomb",,,,NIDORINA,,1.0,
 nidoran_normal,ニドラン(♀),poison,,86,89,146,"bite_fast,poison_sting_fast","poison_fang,body_slam,sludge_bomb",nidoran_normal,,,,,,32
