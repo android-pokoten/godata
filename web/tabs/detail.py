@@ -1,102 +1,22 @@
 import streamlit as st
 import pandas as pd
-import os
-import math
+import numpy as np
 
-from core.cpm import CPM
-from core.type import TYPE_CHART, TYPE_ORDER, TYPE_JA, TYPE_COLOR, type_with_underline, ja_to_en_type
-from core.param_calc import compute_cp_row, compute_scp_row, compute_hp_row, generate_template_individual
-from core.loader import load_species, load_moves, load_individuals, load_opponents
+from core.type import ja_to_en_type
+from core.loader import load_species, load_opponents
+from core.param_calc import generate_template_individual
 
-note_path = "data/notes.csv"
-
-def load_notes():
-    if not os.path.exists(note_path):
-        return pd.DataFrame(columns=["individual_id", "memo"])
-    return pd.read_csv(note_path)
-
-def save_note(individual_id, memo):
-    notes = load_notes()
-
-    # 既存のメモを更新 or 新規追加
-    notes = notes[notes["individual_id"] != individual_id]
-    notes = pd.concat([
-        notes,
-        pd.DataFrame([{"individual_id": individual_id, "memo": memo}])
-    ])
-
-    notes.to_csv(note_path, index=False)
-
-# タイプ相性表
-def render_type_relations(species_row):
-    type1 = species_row["type1"]
-    type2 = species_row["type2"]
-    target_types = [t for t in [type1, type2] if t]
-
-    row = {}
-
-    for atk_type, chart in TYPE_CHART.items():
-        mult = 1.0
-        for t in target_types:
-            mult *= chart.get(t, 1.0)
-
-        row[atk_type] = mult
-
-    # ヘッダーセルにタイプごとの色付け
-    def style_type_headers(df):
-        # 列ヘッダーのスタイル
-        col_styles = [
-            {
-                "selector": f"th.col_heading.level0.col{i}",
-                "props": f"background-color: {TYPE_COLOR[col]}; color: white; font-weight: bold;"
-                "writing-mode: vertical-rl; "
-                "text-orientation: upright; "
-                "padding: 6px 1px;"
-            }
-            for i, col in enumerate(df.columns)
-        ]
-
-        return col_styles
-
-    def highlight(row):
-        styled = []
-        for val in row:
-            if val >= 2.0:
-                styled.append("background-color: #ff9999")
-            elif val > 1.0:
-                styled.append("background-color: #ffcccc")
-            elif val == 1.0:
-                styled.append("background-color: #eeeeee; color: #eeeeee")
-            elif val > 0.39:
-                styled.append("background-color: #cce5ff")
-            else:
-                styled.append("background-color: #99ccff")
-        return styled
-
-    df = pd.DataFrame([row])
-
-    df_jp = df.copy()
-    df_jp.index = df_jp.index.map(TYPE_JA)
-    df_jp.columns = df_jp.columns.map(TYPE_JA)
-
-    styled = (
-        df_jp
-            .style.apply(highlight, axis=1)
-            .set_table_styles(style_type_headers(df))  # ← 見出しだけ色付け
-            .format("{:.2f}")  
-    )
-
-    # 色付きテーブル
-    st.markdown("### タイプ相性まとめ")
-    st.table(styled)
+from core.logic.type_matchup import calc_type_relations
+from core.logic.moves import calc_fastmove_list, calc_chargemove_list
+from core.logic.stats import calc_indivisuals_stats, load_notes, save_note
+from core.style.type_matchup_style import style_type_relations
+from core.style.stats_style import type_with_underline, highlight_legacy, highlight_stab, render_charge_gauge, draw_types
 
 @st.fragment
 def render_detail():
     st.header("ポケモン詳細")
 
     species = load_species()
-    moves = load_moves()
-    individuals = load_individuals()
 
     # 検索欄
     query = st.text_input("ポケモン名で検索（日本語・英語どちらでも）")
@@ -172,57 +92,17 @@ def render_detail():
                     st.code(f"{evo}")
 
     # タイプ相性
-    render_type_relations(sp)
+    st.markdown("### タイプ相性まとめ")
+    type_df = calc_type_relations(sp["type1"], sp["type2"])
+    styled_type_df = style_type_relations(type_df)
+    st.table(styled_type_df)
 
     # 技データ
     st.subheader("わざ")
 
-    fast_list = sp["fast_moves"].split(",") if sp["fast_moves"] else [] 
-    elite_fast_list = sp["elitefast"].split(",") if sp["elitefast"] else []
-    fast_list += elite_fast_list
-    fast_move_list = moves[moves["move_id"].isin(fast_list)].copy()
-    fast_move_list["stab"] = fast_move_list["type"].apply(
-        lambda t: 1.2 if t in [sp["type1"], sp["type2"]] else 1.0
-    )
-    fast_move_list["一致"] = fast_move_list["stab"].apply(lambda x: "⭐" if x > 1.0 else "")
-    fast_move_list["power_stab"] = (fast_move_list["power"] * fast_move_list["stab"]).round(1)
-    fast_move_list["dpt"] = fast_move_list["power_stab"] / fast_move_list["turns"]
-    fast_move_list["ept"] = fast_move_list["energy"] / fast_move_list["turns"]
-    fast_move_list["name_ja"] = fast_move_list.apply(
-        lambda row: row["name_ja"] + "＊" if row["move_id"] in elite_fast_list else row["name_ja"],
-        axis=1
-    )
-    fast_move_list["type"] = fast_move_list["type"].apply(lambda x: TYPE_JA.get(x, x))
-
-    charge_list = sp["charge_moves"].split(",") if sp["charge_moves"] else []
-    elite_charge_list = sp["elitecharge"].split(",") if sp["elitecharge"] else []
-    charge_list += elite_charge_list
-    charge_moves = moves[moves["move_id"].isin(charge_list)].copy()
-    charge_moves["stab"] = charge_moves["type"].apply(
-        lambda t: 1.2 if t in [sp["type1"], sp["type2"]] else 1.0
-    )
-    charge_moves["一致"] = charge_moves["stab"].apply(lambda x: "⭐" if x > 1.0 else "")
-    charge_moves["power_stab"] = (charge_moves["power"] * charge_moves["stab"]).round(1)
-    charge_moves["dpe"] = (charge_moves["power_stab"] / charge_moves["energy"].abs()).round(1)
-    charge_moves["name_ja"] = charge_moves.apply(
-        lambda row: row["name_ja"] + "＊" if row["move_id"] in elite_charge_list else row["name_ja"],
-        axis=1
-    )
-    charge_moves["type"] = charge_moves["type"].apply(lambda x: TYPE_JA.get(x, x))
-
-    def highlight_legacy(row):
-        styles = []
-        for col, val in row.items():
-            if col == "type":
-                styles.append(f"background: linear-gradient(to bottom, transparent 65%,  {TYPE_COLOR[ja_to_en_type(val)]} 85%, transparent 100%);")
-            elif col == "name_ja" and "＊" in val:
-                 styles.append(f"background: linear-gradient(to left, transparent 98%,  red 99%, transparent 100%);")
-            else:
-                styles.append("")
-        return styles
-
-    def highlight_stab(row):
-        return ['background-color: #fff3cd' if row["一致"] == "⭐" else '' for _ in row]
+    # わざリストを作成
+    fast_move_list = calc_fastmove_list(sp)
+    charge_moves = calc_chargemove_list(sp)
 
     st.write("### ノーマルわざ")
     cols = ["power_stab", "energy", "turns", "dpt", "ept"]
@@ -265,41 +145,9 @@ def render_detail():
     # 個体データ
     st.subheader("手持ち個体一覧")
 
-    # 選択された species_id の個体を抽出
-    indiv = individuals[individuals["species_id"] == selected].copy()
-
-    # 個体のCP, SCP, HP を計算
-    if not indiv.empty:
-        indiv["CP"] = indiv.apply(compute_cp_row, axis=1)
-        indiv["SCP"] = indiv.apply(compute_scp_row, axis=1)
-        indiv["HP"] = indiv.apply(compute_hp_row, axis=1)
-
-        # fast_move の日本語名を結合
-        indiv = indiv.merge(
-            moves[["move_id", "name_ja", "type"]].rename(columns={"name_ja": "fast_move_ja", "type": "fast_move_type"}),
-            how="left",
-            left_on="fast_move",
-            right_on="move_id"
-        ).drop(columns=["move_id"])
-        
-        # charge_move1 の日本語名
-        indiv = indiv.merge(
-            moves[["move_id", "name_ja", "type"]].rename(columns={"name_ja": "charge_move1_ja", "type": "charge_move1_type"}),
-            how="left",
-            left_on="charge_move1",
-            right_on="move_id"
-        ).drop(columns=["move_id"])
-        
-        # charge_move2 の日本語名
-        indiv = indiv.merge(
-            moves[["move_id", "name_ja", "type"]].rename(columns={"name_ja": "charge_move2_ja", "type": "charge_move2_type"}),
-            how="left",
-            left_on="charge_move2",
-            right_on="move_id"
-        ).drop(columns=["move_id"])
-
-        indiv = indiv.fillna(0)
-        notes = load_notes()
+    indiv = calc_indivisuals_stats(selected, fast_move_list, charge_moves)
+    # 手持ちが居ない場合は処理をスキップ
+    if not indiv is None:
         NUM_COLS = 3
         cols = st.columns(NUM_COLS)
 
@@ -307,69 +155,55 @@ def render_detail():
             col = cols[i % NUM_COLS]
 
             with col:
-                # スペシャルわざのゲージを表示
-                def render_charge_gauge(energy, turn, cost, fast_type, charge_type):
-                    energy = abs(int(float(energy)))
-                    turn = abs(int(float(turn)))
-                    cost = abs(int(float(cost)))
-
-                    fast_times = ((cost +  energy - 1) // energy)
-                    total_turn = fast_times * turn
-                    
-                    blocks = []
-                    for i in range(1, total_turn + 1):
-                        blocks.append('■')
-                        if i % turn == 0:
-                            blocks.append('|')
-                        else:
-                            blocks.append(' ')
-                        
-                    guage = "".join(blocks)
-                    st.markdown(
-                        f'<span style="color: {TYPE_COLOR[fast_type]};">{guage}</span><span style="color: {TYPE_COLOR[charge_type]};">[{total_turn} turns/ {fast_times} times]</span>',
-                        unsafe_allow_html=True
-                    )
-
-                # わざのタイプを色分け
-                def draw_types(move_type, move_name, tooltip):
-                    st.markdown(
-                        f'(<span title="{tooltip}" style="background: linear-gradient(to bottom, transparent 65%,  {TYPE_COLOR[move_type]} 85%, transparent 100%);">{TYPE_JA[move_type]}</span>) {move_name}',
-                        unsafe_allow_html=True
-                    )
-
                 st.write(f"{row["individual_id"]}")
                 st.write(f"CP: **{row["CP"]}** / SCP: **{row["SCP"]}**")
                 st.write(f"HP: **{row["HP"]}**")
                 st.write(f"個体値: **{row["iv_atk"]}** / **{row["iv_def"]}** / **{row["iv_sta"]}**")
 
                 # わざ未登録のデータがある場合はわざデータ処理をスキップ
-                if bool(row["fast_move_ja"]):
-
-                    # ツールチップ用テキスト
-                    fast_move_data = fast_move_list[fast_move_list["move_id"] == row["fast_move"]].iloc[0]
-                    fast_move_text = f"ダメージ: {fast_move_data["power_stab"]} / エネルギー: {fast_move_data["energy"]} / DPT: {fast_move_data["dpt"]} / EPT: {fast_move_data["ept"]}"
-
-                    charge_move1_data = charge_moves[charge_moves["move_id"] == row["charge_move1"]].iloc[0]
-                    charge_move1_text = f"ダメージ: {charge_move1_data["power_stab"]} / エネルギー: {charge_move1_data["energy"]} / DPE: {charge_move1_data["dpe"]}"
-
-                    charge_move2_data = charge_moves[charge_moves["move_id"] == row["charge_move2"]].iloc[0]
-                    charge_move2_text = f"ダメージ: {charge_move2_data["power_stab"]} / エネルギー: {charge_move2_data["energy"]} / DPE: {charge_move2_data["dpe"]}"
-
-                    draw_types(row["fast_move_type"], row["fast_move_ja"], fast_move_text)
-                    draw_types(row["charge_move1_type"], row["charge_move1_ja"], charge_move1_text)
-                    render_charge_gauge(fast_move_data["energy"], fast_move_data["turns"], charge_move1_data["energy"], row["fast_move_type"], row["charge_move1_type"])
-                    draw_types(row["charge_move2_type"], row["charge_move2_ja"], charge_move2_text)
-                    render_charge_gauge(fast_move_data["energy"], fast_move_data["turns"], charge_move2_data["energy"], row["fast_move_type"], row["charge_move2_type"])
+                if not pd.isna(row["fast_move_ja"]):
+                    # ノーマルわざ
+                    st.markdown(draw_types(
+                        ja_to_en_type(row["fast_move_type"]), 
+                        row["fast_move_ja"], 
+                        row["fast_move_text"]
+                        ), unsafe_allow_html=True
+                    )
+                    # チャージわざ1
+                    st.markdown(draw_types(
+                        ja_to_en_type(row["charge_move1_type"]), 
+                        row["charge_move1_ja"], 
+                        row["charge_move1_text"]), unsafe_allow_html=True
+                    )
+                    st.markdown(render_charge_gauge(
+                        row["fast_energy"], 
+                        row["fast_turns"],
+                        row["charge1_energy"], 
+                        ja_to_en_type(row["fast_move_type"]), 
+                        ja_to_en_type(row["charge_move1_type"])), unsafe_allow_html=True
+                    )
+                    # チャージわざ2
+                    st.markdown(draw_types(
+                        ja_to_en_type(row["charge_move2_type"]), 
+                        row["charge_move2_ja"], 
+                        row["charge_move2_text"]), unsafe_allow_html=True
+                    )
+                    st.markdown(render_charge_gauge(
+                        row["fast_energy"], 
+                        row["fast_turns"],
+                        row["charge2_energy"], 
+                        ja_to_en_type(row["fast_move_type"]), 
+                        ja_to_en_type(row["charge_move2_type"])), unsafe_allow_html=True
+                    )
 
                 # 既存メモを取得
                 sid = row["individual_id"]
-                existing = notes[notes["individual_id"] == sid]
-                memo_text = existing["memo"].iloc[0] if not existing.empty else ""
+                memo_text = load_notes(sid)
 
                 # メモ入力欄
                 memo = st.text_area("メモ（100文字まで）", memo_text, max_chars=100, key=f"{sid}_txt")
 
-                # 保存ボタン
+                # メモ保存ボタン
                 if st.button("メモを保存", key=f"{sid}_but"):
                     save_note(sid, memo)
                     st.success("保存しました！")
