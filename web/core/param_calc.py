@@ -38,6 +38,9 @@ def calc_hp(base_sta, iv_sta, cpm):
 def compute_cp_row(row):    
     # 種族データ
     sp = species[species["species_id"] == row["species_id"]].iloc[0]
+    if sp_rows.empty:
+        return None
+    sp = sp_rows.iloc[0]
 
     #print(row["species_id"])
     return calc_cp(
@@ -54,6 +57,9 @@ def compute_cp_row(row):
 def compute_scp_row(row):
     # 種族データ
     sp = species[species["species_id"] == row["species_id"]].iloc[0]
+    if sp_rows.empty:
+        return None
+    sp = sp_rows.iloc[0]
 
     return calc_scp(
         base_atk=sp["base_atk"],
@@ -69,6 +75,9 @@ def compute_scp_row(row):
 def compute_hp_row(row):
     # 種族データ
     sp = species[species["species_id"] == row["species_id"]].iloc[0]
+    if sp_rows.empty:
+        return None
+    sp = sp_rows.iloc[0]
 
     level = row["level"]
 
