@@ -208,12 +208,12 @@ def render_matchup_tab():
             "(resist)": score_resist,
             "(bulk)": score_bulk,
         })
+    if results:
+        df = pd.DataFrame(results)
+        df = df.sort_values("score", ascending=False)
 
-    df = pd.DataFrame(results)
-    df = df.sort_values("score", ascending=False)
-
-    st.write("### 手持ちの中で有利な順ランキング")
-    st.dataframe(df, width='stretch')
+        st.write("### 手持ちの中で有利な順ランキング")
+        st.dataframe(df, width='stretch')
 
 # 手持ちデータ修正
 @st.fragment
