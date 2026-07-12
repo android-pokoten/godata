@@ -134,6 +134,38 @@ TYPE_COLOR = {
     "fairy":   "#D685AD",
 }
 
+# 少し薄めのタイプ色
+def lighten(hex_color, factor=0.3):
+    """
+    hex_color: "#A8A77A" のような HEX
+    factor: 0〜1（白にどれだけ寄せるか）
+    """
+    hex_color = hex_color.lstrip("#")
+    r = int(hex_color[0:2], 16)
+    g = int(hex_color[2:4], 16)
+    b = int(hex_color[4:6], 16)
+
+    '''
+    # 白に寄せる
+    r = int(r + (255 - r) * factor)
+    g = int(g + (255 - g) * factor)
+    b = int(b + (255 - b) * factor)
+    '''
+
+    # 混ぜる色（白）
+    R, G, B = 255, 255, 255
+
+    r = int(r * (1-factor) + R * factor)
+    g = int(g * (1-factor) + G * factor)
+    b = int(b * (1-factor) + B * factor)
+
+    return f"#{r:02X}{g:02X}{b:02X}"
+
+TYPE_COLOR_LIGHT = {
+    t: lighten(c, factor=0.8)
+    for t, c in TYPE_COLOR.items()
+}
+
 # タイプ別の下線を引く
 def type_with_underline(t):
     color = TYPE_COLOR[t]
