@@ -394,7 +394,7 @@ dragonair,ハクリュー,dragon,,163,135,156,"dragon_breath_fast,iron_tail_fast
 dragonair_normal,ハクリュー,dragon,,163,135,156,"dragon_breath_fast,iron_tail_fast","wrap,aqua_tail,dragon_pulse,body_slam",dragonair_normal,,,,,,148
 dragonite,カイリュー,dragon,flying,263,198,209,"dragon_tail_fast,steel_wing_fast,dragon_breath_fast","hurricane,hyper_beam,outrage,dragon_claw,super_power,thunder_punch",,,"draco_meteor,dragon_pulse",,DRAGONAIR,1.0,149
 dragonite_normal,カイリュー,dragon,flying,263,198,209,"dragon_tail_fast,steel_wing_fast,dragon_breath_fast","hurricane,hyper_beam,outrage,dragon_claw,super_power,thunder_punch",dragonite_normal,,,,,,149
-mewtwo,ミュウツー,psychic,,300,182,214,"psycho_cut_fast,confusion_fast","psychic,thunderbolt,ice_beam,focus_blast,flamethrower",,,"psystrike,shadow_ball,hyper_beam",,,1.0,150
+mewtwo,ミュウツー,psychic,,300,182,214,"psycho_cut_fast,confusion_fast","psychic,thunderbolt,ice_beam,focus_blast,flamethrower",,counter_fast,"psystrike,shadow_ball,hyper_beam",,,1.0,150
 mewtwo_a,ミュウツー,psychic,,182,278,214,"confusion_fast,iron_tail_fast","rock_slide,dynamic_punch,earthquake,futuresight",mewtwo_a,,,,,,150
 mewtwo_normal,ミュウツー,psychic,,300,182,214,"psycho_cut_fast,confusion_fast","psychic,thunderbolt,ice_beam,focus_blast,flamethrower",mewtwo_normal,,,,,,150
 mew,ミュウ,psychic,,210,210,225,"pound_fast,steel_wing_fast,charge_beam_fast,shadow_claw_fast,volt_switch_fast,struggle_bug_fast,frost_breath_fast,dragon_tail_fast,infestation_fast,poison_jab_fast,rock_smash_fast,snarl_fast,cut_fast,waterfall_fast","psychic,ancient_power,dragon_claw,psyshock,ice_beam,blizzard,hyper_beam,solar_beam,thunderbolt,thunder,flame_charge,low_sweep,overheat,focus_blast,energy_ball,stone_edge,gyro_ball,bulldoze,rock_slide,grass_knot,flash_cannon,wild_charge,dark_pulse,dazzling_gleam,surf",,,,,,1.0,151
@@ -1847,7 +1847,7 @@ poipole,ベベノム,poison,,145,133,167,"poison_jab_fast,peck_fast","sludge_bom
 naganadel,アーゴヨン,poison,dragon,263,159,177,"poison_jab_fast,air_slash_fast","sludge_bomb,acrobatics,fell_stinger,dragon_pulse,dragon_claw",,,,,POIPOLE,,804
 stakataka,ツンデツンデ,rock,steel,213,298,156,"rock_throw_fast,take_down_fast","flash_cannon,stone_edge,bulldoze",,,,,,,805
 blacephalon,ズガドーン,fire,ghost,315,148,142,"incinerate_fast,astonish_fast","mystical_fire,shadow_ball,overheat",,,mind_blown,,,,806
-zeraora,ゼラオラ,electric,,252,177,204,"spark_fast,volt_switch_fast","thunder_punch,discharge,wild_charge",,,,,,,807
+zeraora,ゼラオラ,electric,,252,177,204,"spark_fast,volt_switch_fast","thunder_punch,discharge,wild_charge,plasma_fists",,,,,,,807
 meltan,メルタン,steel,,118,99,130,thunder_shock_fast,"flash_cannon,thunderbolt",,,,MELMETAL,,,808
 meltan_normal,メルタン,steel,,118,99,130,thunder_shock_fast,"flash_cannon,thunderbolt",meltan_normal,,,,,,808
 melmetal,メルメタル,steel,,226,190,264,thunder_shock_fast,"flash_cannon,thunderbolt,hyper_beam,rock_slide,super_power,dynamic_punch",,,double_iron_bash,,MELTAN,,809
