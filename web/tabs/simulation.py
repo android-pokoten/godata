@@ -91,6 +91,7 @@ def render_1vs1_simulator():
                     "倍率": "{:.2f}",
                     "ダメージ": "{:.2f}",
                     "威力": "{:.2f}",
+                    "ターン数": "{:.2f}",
                     "エネルギー": "{:.2f}"
                 }),
                 width="stretch"
@@ -103,13 +104,15 @@ def render_1vs1_simulator():
                     "倍率": "{:.2f}",
                     "ダメージ": "{:.2f}",
                     "威力": "{:.2f}",
+                    "ターン数": "{:.2f}",
                     "エネルギー": "{:.2f}"
                 }),
                 width="stretch"
             )
 
         # シミュレーション実行
-        result = simulate(p1, p2, species, moves, shield1, shield2)
+        #result = simulate(p1, p2, species, moves, shield1, shield2)
+        result = simulate(p1, p2, species, dfA, dfB, shield1, shield2)
 
         st.subheader("結果")
 
@@ -128,8 +131,22 @@ def render_1vs1_simulator():
             st.write(f"残りシールド：{result['shield2']}")
 
         st.subheader("ログ (ターンごとの動き)")
-        st.markdown(result["logs"])
-
+        #st.markdown(result["logs"])
+        
+        df = pd.DataFrame(result["turn_logs"])
+        df = df.rename(columns={
+            "turn": "ターン",
+            "p1_ene": "自エネ",
+            "p1_move": p1_name,
+            "p1_hp": "自HP",
+            "p1_damage": "⇒ダメ",
+            "p2_ene": "相エネ",
+            "p2_move": p2_name,
+            "p2_hp": "相HP",
+            "p2_damage": "←ダメージ",
+        })
+        df = df[["自エネ", p1_name, "自HP", "⇒ダメ", "ターン", "←ダメージ", "相HP", p2_name, "相エネ"]]
+        st.table(df)
 
 @st.fragment
 def render_matchup():
@@ -177,6 +194,7 @@ def render_matchup():
 
         for _, ind in valid_ind.iterrows():
             ind_id = ind["individual_id"]
+            my_moves, opp_moves = list_move_damage_both(ind, opp_row, species, moves)
 
             # 5パターン
             patterns = [
@@ -190,7 +208,7 @@ def render_matchup():
             row_result = {"individual_id": ind_id}
 
             for label, s_me, s_opp in patterns:
-                result = simulate(ind, opp_row, species, moves, s_me, s_opp)
+                result = simulate(ind, opp_row, species, my_moves, opp_moves, s_me, s_opp)
 
                 row_result[label] = win if result["hp1"] > result["hp2"] else lose
 

@@ -66,11 +66,14 @@ def render_3vs3_simulator():
         log1vs1 = ""
 
         while my_idx < 3 and opp_idx < 3:
+            my_team_moves, opp_team_moves = list_move_damage_both(my_team[my_idx], opp_team[opp_idx], species, moves_df)
+
             result = simulate(
                 my_team[my_idx],
                 opp_team[opp_idx],
                 species,
-                moves_df,
+                my_team_moves,
+                opp_team_moves,
                 0, 0,
                 my_hp, opp_hp,
                 my_e, opp_e

@@ -82,3 +82,43 @@ def calc_chargemove_list(sp):
     charge_moves["type"] = charge_moves["type"].apply(lambda x: TYPE_JA.get(x, x))
 
     return charge_moves
+
+    # チャージわざ選択ロジック
+def choose_charge_move(energy, m1, m2):
+    available = []
+
+    if energy >= abs(m1["エネルギー"]):
+        available.append(m1)
+    if energy >= abs(m2["エネルギー"]):
+        available.append(m2)
+
+    if not available:
+        return None
+
+    # エネルギーが軽い技を優先
+    #available.sort(key=lambda m: abs(m["エネルギー"]))
+    # 打てるわざのうちダメージが大きいわざを優先
+    available.sort(key=lambda m: abs(m["ダメージ"]), reverse=True)
+    # DPEが大きいわざを優先
+    #best = max(available, key=lambda m: abs(m["e_dpe"]))
+    return available[0]
+
+# チャージわざ処理
+def apply_charge(move, energy, hp, shields):
+    # 1. エネルギー消費（チャージ技は energy が負）
+    energy -= abs(move["エネルギー"])
+
+    # 2. シールド判定
+    if shields > 0:
+        shields -= 1
+        # シールドで完全に防ぐのでダメージなし
+        return hp, shields, energy, 0
+
+    # 3. ダメージ計算（PvP 公式式）
+    #dmg = int(0.5 * move["power"] * atk / deff * stab * eff) + 1
+
+    # 4. HP 更新
+    hp -= move["ダメージ"]
+
+    # 5. 更新後の状態を返す
+    return hp, shields, energy, move["ダメージ"]
