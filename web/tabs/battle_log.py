@@ -82,11 +82,26 @@ def battle_log_tab():
 
     left, center, right = st.columns(3)
     with left:
-        my1 = st.selectbox("1匹目", individuals["individual_id"], index=idx(individuals, "individual_id", default_my1))
+        my1 = st.selectbox(
+            "1匹目",
+            individuals["individual_id"],
+            index=idx(individuals, "individual_id", default_my1),
+            key="log_my1"
+            )
     with center:
-        my2 = st.selectbox("2匹目", individuals["individual_id"], index=idx(individuals, "individual_id", default_my2))
+        my2 = st.selectbox(
+            "2匹目",
+            individuals["individual_id"],
+            index=idx(individuals, "individual_id", default_my2),
+            key="log_my2"
+            )
     with right:
-        my3 = st.selectbox("3匹目", individuals["individual_id"], index=idx(individuals, "individual_id", default_my3))
+        my3 = st.selectbox(
+            "3匹目",
+            individuals["individual_id"],
+            index=idx(individuals, "individual_id", default_my3),
+            key="log_my3"
+            )
 
     st.write("### 相手のポケモン（3匹）")
     left, center, right = st.columns(3)
