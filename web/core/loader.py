@@ -1,3 +1,5 @@
+import os
+import shutil
 import pandas as pd
 
 def load_species():
@@ -16,7 +18,15 @@ def load_moves():
     return pd.read_csv("data/moves.csv")
 
 def load_individuals():
-    df = pd.read_csv("data/individuals.csv")
+    path = "data/individuals.csv"
+    temp_path = "data/tmp.individuals.csv"
+
+    if not os.path.exists(path):
+        # データファイルが存在しない場合はテンプレートをコピーする
+        shutil.copy(temp_path, path)
+
+    # データファイルを読み込む
+    df = pd.read_csv(path)
 
     # NaN を False に置き換え
     df["is_shadow"] = (
@@ -32,4 +42,14 @@ def load_individuals():
     return df
 
 def load_opponents():
-    return pd.read_csv("data/opponents.csv")
+    path = "data/opponents.csv"
+    temp_path = "data/tmp.opponents.csv"
+
+    if not os.path.exists(path):
+        # データファイルが存在しない場合はテンプレートをコピーする
+        shutil.copy(temp_path, path)
+
+    # データファイルを読み込む
+    df = pd.read_csv(path)
+
+    return df
