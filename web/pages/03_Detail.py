@@ -34,6 +34,8 @@ def render_detail():
         try:
             p_id = int(p_id_str)
             row = species[species["dex"] == p_id]
+        except ValueError:
+            row = None
 
         # 初期値を決める
         if not row.empty:
