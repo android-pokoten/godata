@@ -25,6 +25,20 @@ def render_detail():
 
     species = load_species()
 
+    # パラメータで ID 指定がある場合の処理
+    params = st.query_params
+    p_id_str = params.get("id", None)
+    initial_query = ""
+
+    if p_id_str:
+        try:
+            p_id = int(p_id_str)
+            row = species[species["dex"] == p_id]
+
+        # 初期値を決める
+        if not row.empty:
+            initial_query = row.iloc[0]["name_ja"]  # 日本語名を初期値にする
+
     # 検索欄
     query = st.text_input(
         "ポケモン名で検索（日本語・英語どちらでも）",
