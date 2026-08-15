@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 
+from core.header import render_header
 from core.type import ja_to_en_type
 from core.loader import load_species, load_opponents
 from core.param_calc import generate_template_individual
@@ -12,6 +13,12 @@ from core.logic.stats import calc_indivisuals_stats, load_notes, save_note
 from core.style.type_matchup_style import style_type_relations
 from core.style.stats_style import type_with_underline, highlight_legacy, highlight_stab, render_charge_gauge, draw_types
 
+### メイン処理
+def main():
+    render_header()
+
+    render_detail()
+
 @st.fragment
 def render_detail():
     st.header("ポケモン詳細")
@@ -19,7 +26,10 @@ def render_detail():
     species = load_species()
 
     # 検索欄
-    query = st.text_input("ポケモン名で検索（日本語・英語どちらでも）")
+    query = st.text_input(
+        "ポケモン名で検索（日本語・英語どちらでも）",
+        value=initial_query
+    )
     
     # 絞り込み
     if query:
@@ -228,3 +238,5 @@ def render_detail():
         ]], width='stretch')
 
 
+if __name__ == "__main__":
+    main()

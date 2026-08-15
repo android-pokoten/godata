@@ -1,12 +1,18 @@
 import streamlit as st
 import pandas as pd
 
+from core.header import render_header
 from core.simulator import simulate, list_move_damage_both
 from core.loader import load_species, load_individuals, load_moves, load_opponents
+
 from tabs.party_sim import render_3vs3_simulator
 from tabs.edit import render_editer
 
-def render_simulator():
+
+### メイン処理
+def main():
+    render_header()
+
     # タブ切り替え
     tabs = {
         "1 vs 1": render_1vs1_simulator, 
@@ -292,3 +298,6 @@ def party_simulator():
         styled_attach_df = style_attack_coverage_html(attack_df)
 
         st.table(styled_attach_df)
+
+if __name__ == "__main__":
+    main()

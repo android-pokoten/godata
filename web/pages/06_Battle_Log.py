@@ -1,11 +1,20 @@
 import streamlit as st
 import pandas as pd
 
+from core.header import render_header
 from core.loader import load_species, load_individuals, load_moves, load_opponents
+
 from tabs.edit import render_editer
 
 # バトルログのパス
 battle_log_path = "data/battle_log.csv"
+
+### メイン処理
+def main():
+    render_header()
+
+    render_battlelog()
+
 
 def render_battlelog():
     # タブ切り替え
@@ -418,3 +427,6 @@ def edit_log_tab():
     }
 
     render_editer(csv_files)
+
+if __name__ == "__main__":
+    main()

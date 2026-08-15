@@ -1,9 +1,16 @@
 import streamlit as st
 import pandas as pd
 
+from core.header import render_header
 from core.type import type_with_underline
 from core.loader import load_species, load_individuals, load_moves
 from core.param_calc import calc_level_from_cp, calc_pvp_rank, find_best_level_for_cp1500, calc_cp
+
+### メイン処理
+def main():
+    render_header()
+
+    render_iv_checker()
 
 @st.fragment
 def render_iv_checker():
@@ -166,4 +173,5 @@ def render_iv_checker():
             evo_sps = species[species["species_id"] == evo.strip().lower()].iloc[0]
             write_evo_cp(evo_sps)
 
-
+if __name__ == "__main__":
+    main()

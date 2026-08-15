@@ -1,13 +1,17 @@
 import streamlit as st
 import pandas as pd
 
+from core.header import render_header
 from core.loader import load_species, load_moves, load_individuals, load_opponents
 from core.type import TYPE_JA, TYPE_EN
+
 from tabs.season_effect import render_season_effect
 from tabs.edit import render_editer
 
-@st.fragment
-def render_datum():
+### メイン処理
+def main():
+    render_header()
+
     # タブ切り替え
     tabs = {
         "種族値": render_species, 
@@ -190,3 +194,6 @@ def render_typechart():
     # 色付きテーブル
     st.markdown("### タイプ相性表")
     st.table(styled)
+
+if __name__ == "__main__":
+    main()
