@@ -1870,7 +1870,7 @@ blipbug,サッチムシ,bug,,46,67,93,struggle_bug_fast,struggle,,,,DOTTLER,,,82
 dottler,レドームシ,bug,psychic,87,157,137,"struggle_bug_fast,confusion_fast","bug_buzz,psychic",,,,ORBEETLE,BLIPBUG,,825
 orbeetle,イオルブ,bug,psychic,156,240,155,"struggle_bug_fast,confusion_fast","bug_buzz,psychic",,,,,DOTTLER,,826
 nickit,クスネ,dark,,85,82,120,"sucker_punch_fast,snarl_fast,quick_attack_fast","night_slash,play_rough",,,,THIEVUL,,,827
-thievul,フォクスライ,dark,,172,164,172,"sucker_punch_fast,snarl_fast,quick_attack_fast","night_slash,play_rough",,,,,NICKIT,,828
+thievul,フォクスライ,dark,,172,164,172,"sucker_punch_fast,snarl_fast,quick_attack_fast","night_slash,play_rough",,,icy_wind,,NICKIT,,828
 gossifleur,ヒメンカ,grass,,70,104,120,"razor_leaf_fast,bullet_seed_fast","energy_ball,grass_knot",,,,ELDEGOSS,,,829
 eldegoss,ワタシラガ,grass,,148,211,155,"razor_leaf_fast,bullet_seed_fast","energy_ball,grass_knot",,,,,GOSSIFLEUR,,830
 wooloo,ウールー,normal,,76,97,123,"tackle_fast,take_down_fast","wild_charge,payback,stomp",,,,DUBWOOL,,,831
