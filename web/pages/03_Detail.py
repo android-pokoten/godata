@@ -107,15 +107,26 @@ def render_detail():
         with col1:
             st.write("進化前＜＜")
             if sp["evolves_from"]:
-                st.code(f'{species[species["species_id"] == sp["evolves_from"].lower()].iloc[0]["name_ja"]}')
+                evo_sp = species[species["species_id"] == sp["evolves_from"].lower()].iloc[0]
+                dex = evo_sp["dex"]
+                st.page_link(
+                    "pages/03_Detail.py", 
+                    query_params={"id": int(dex)}, 
+                    label=evo_sp["name_ja"]
+                )
 
         with col2:
             st.write("＞＞進化先")
             if sp["evolves_to"]:
                 next_forms = sp["evolves_to"].split(",")
                 for evo in next_forms:
-                    evo = species[species["species_id"] == evo.strip().lower()].iloc[0]["name_ja"]
-                    st.code(f"{evo}")
+                    evo_sp = species[species["species_id"] == evo.strip().lower()].iloc[0]
+                    dex = evo_sp["dex"]
+                    st.page_link(
+                        "pages/03_Detail.py", 
+                        query_params={"id": int(dex)}, 
+                        label=evo_sp["name_ja"]
+                    )
 
     # タイプ相性
     st.markdown("### タイプ相性まとめ")
