@@ -1887,7 +1887,7 @@ flapple,アップリュー,grass,dragon,214,144,172,"bullet_seed_fast,dragon_bre
 appletun,タルップル,grass,dragon,178,146,242,"bullet_seed_fast,astonish_fast","dragon_pulse,energy_ball,outrage,seed_bomb",,,,,APPLIN,,842
 silicobra,スナヘビ,ground,,103,123,141,"mud_slap_fast,mud_shot_fast","dig,bulldoze,earth_power,wrap",,,,SANDACONDA,,,843
 sandaconda,サダイジャ,ground,,202,207,176,"mud_slap_fast,mud_shot_fast","dig,bulldoze,earth_power,wrap",,,,,SILICOBRA,,844
-cramorant,ウッウ,flying,water,173,163,172,"peck_fast,water_gun_fast","drill_peck,fly,hydro_pump",,,,,,,845
+cramorant,ウッウ,flying,water,173,163,172,"peck_fast,water_gun_fast","fly,hydro_pump,surf,dive",,,,,,,845
 arrokuda,サシカマス,water,,118,72,121,"waterfall_fast,bite_fast,peck_fast","crunch,aqua_jet,close_combat",,,,BARRASKEWDA,,,846
 barraskewda,カマスジョー,water,,258,127,156,"waterfall_fast,bite_fast,peck_fast","crunch,aqua_jet,close_combat",,,,,ARROKUDA,,847
 toxel,エレズン,electric,poison,97,65,120,acid_fast,power_up_punch,,,,"TOXTRICITY,TOXTRICITY",,,848
