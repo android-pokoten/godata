@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import math
 
-from tabs.register import render_register
 from tabs.cup_filter import render_cup_filter
 from tabs.edit import render_editer
 
@@ -19,7 +18,6 @@ def main():
     # タブ切り替え
     tabs = {
         "手持ち一覧": render_individuals_list,
-        "手持ち登録": render_register, 
         "特殊カップ": render_cup_filter,
         "手持ちデータ修正": render_iv_editor, 
     }
@@ -38,13 +36,6 @@ def calc_stats(species_row, iv_atk, iv_def, iv_sta, level):
     stamina = math.floor((species_row["base_sta"] + iv_sta) * cpm)
 
     return atk, defense, stamina
-
-# タイプ相性判定
-def get_multiplier(move_type, target_types):
-    mult = 1.0
-    for t in target_types:
-        mult *= TYPE_CHART.get(move_type, {}).get(t, 1.0)
-    return mult
 
 # 手持ち一覧
 def render_individuals_list():

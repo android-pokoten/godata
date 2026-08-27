@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+from urllib.parse import quote
 
 from core.header import render_header
 from core.type import ja_to_en_type
@@ -192,7 +193,15 @@ def render_detail():
             col = cols[i % NUM_COLS]
 
             with col:
-                st.write(f"{row["individual_id"]}")
+                iv_name = row["individual_id"]
+                st.write(f"{iv_name}")
+                # 編集ボタン
+                st.page_link(
+                    "pages/02_Register.py", 
+                    query_params={"ivid": quote(iv_name)}, 
+                    label="編集"
+                )
+
                 st.write(f"CP: **{row["CP"]}** / SCP: **{row["SCP"]}**")
                 st.write(f"HP: **{row["HP"]}**")
                 st.write(f"個体値: **{row["iv_atk"]}** / **{row["iv_def"]}** / **{row["iv_sta"]}**")
@@ -244,7 +253,12 @@ def render_detail():
                 if st.button("メモを保存", key=f"{sid}_but"):
                     save_note(sid, memo)
                     st.success("保存しました！")
-
+    # 個体登録用リンク 
+    st.page_link(
+        "pages/02_Register.py", 
+        query_params={"species": sp["species_id"]}, 
+        label="このポケモンの手持ちを登録"
+        )
 
     # テンプレ個体データ
     opponents = load_opponents()
