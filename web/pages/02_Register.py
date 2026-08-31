@@ -263,5 +263,12 @@ def render_register():
             st.session_state["reg_confirm_update"] = False
             st.success("保存しました")
 
+    st.page_link(
+        "pages/03_Detail.py", 
+        query_params={"id": int(sp["dex"])}, 
+        label="このポケモンの詳細を表示"
+    )
+
+
 if __name__ == "__main__":
     main()
