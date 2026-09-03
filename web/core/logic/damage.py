@@ -26,3 +26,58 @@ def calc_damage(attacker, defender, move, iv_atk, iv_def):
     # ダメージ計算
     damage = math.floor(0.5 * power * (iv_atk / iv_def) * mult) + 1
     return damage, mult
+
+# わざごとにダメージ一覧
+def list_move_damage_both_sp(p1, p2, species, moves):
+    import pandas as pd
+    import streamlit as st
+
+    from core.logic.damage import calc_damage
+    from core.simulator import calc_stats_for_individual
+
+    # 実数値計算
+    atk1, def1, hp1 = calc_stats_for_individual(p1, species)
+    atk2, def2, hp2 = calc_stats_for_individual(p2, species)
+
+    # 種族データ
+    sp1 = species[species["species_id"] == p1["species_id"]].iloc[0] 
+    sp2 = species[species["species_id"] == p2["species_id"]].iloc[0] 
+    # 計算用に攻撃と防御の種族値をセット
+    sp1["iv_atk"] = atk1
+    sp1["iv_def"] = def1
+    sp2["iv_atk"] = atk2
+    sp2["iv_def"] = def2
+
+    # moves の index を move_id にセット
+    moves = moves.set_index("move_id")
+
+    spRows = []
+
+    for spA, spB in [(sp1, sp2), (sp2, sp1)]:
+        # わざ一覧を列挙
+        move_list = spA["fast_moves"].split(",") if spA["fast_moves"] else []
+        move_list += spA["elitefast"].split(",") if spA["elitefast"] else []
+        move_list += spA["charge_moves"].split(",") if spA["charge_moves"] else []
+        move_list += spA["elitecharge"].split(",") if spA["elitecharge"] else []
+
+        rowsA = []
+
+        # --- A → B のダメージ ---
+        for move in move_list:
+            #st.write(f"{moves.index}")
+            move_data = moves.loc[move]
+
+            dmg, mult = calc_damage(spA, spB, move_data, spA["iv_atk"], spB["iv_def"])
+            rowsA.append({
+                "技": move_data["name_ja"],
+                "タイプ": move_data["type"],
+                "ターン数": move_data["turns"],
+                "威力": move_data["power"],
+                "倍率": mult,
+                "ダメージ": dmg,
+                "エネルギー": move_data["energy"]
+            })
+
+        spRows.append(rowsA)
+
+    return pd.DataFrame(spRows[0]), pd.DataFrame(spRows[1])

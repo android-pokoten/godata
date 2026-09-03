@@ -20,6 +20,7 @@ def main():
         "3 vs 3": render_3vs3_simulator,
         "相手用テンプレ個体編集": edit_opponet_tab,
         "パーティ検討": party_simulator,
+        "ダメージ計算": render_damage_sim,
     }
 
     tab_objects = st.tabs(list(tabs.keys()))
@@ -298,6 +299,145 @@ def party_simulator():
         styled_attach_df = style_attack_coverage_html(attack_df)
 
         st.table(styled_attach_df)
+
+@st.fragment
+def render_damage_sim():
+    from core.param_calc import calc_cp, compute_hp_row
+    from core.logic.damage import list_move_damage_both_sp
+    from core.param_calc import generate_template_individual
+
+    st.header("ダメージ計算")
+
+    species = load_species()
+    moves = load_moves()
+
+    col1, col2 = st.columns(2)
+    with col1:
+        st.write("攻撃側")
+        query = st.text_input(
+            "ポケモン名で検索（部分一致）",
+            key="sp_a"
+        )
+
+        if query:
+            candidates = species[
+                species["name_ja"].str.contains(query, case=False) |
+                species["species_id"].str.contains(query, case=False)
+            ]
+
+        else:
+            candidates = species
+
+        if len(candidates) == 0:
+            st.warning("該当するポケモンがありません")
+            st.stop()
+
+        species_ids = candidates["species_id"].tolist()
+
+        # 事前に辞書を作る
+        name_map = {
+            row["species_id"]: f"{row['name_ja']} ({row['species_id']})"
+            for _, row in species.iterrows()
+        }
+
+        species_name = st.selectbox(
+            "ポケモンを選択",
+            species_ids,
+            format_func=lambda sid: name_map[sid],
+            key="spname_a"
+        )
+
+        sp_a = species[species["species_id"] == species_name].iloc[0]
+        iv_a = generate_template_individual(species_name, sp_a)
+
+    with col2:
+        st.write("攻撃側")
+        query = st.text_input(
+            "ポケモン名で検索（部分一致）",
+            key="sp_b"
+        )
+
+        if query:
+            candidates = species[
+                species["name_ja"].str.contains(query, case=False) |
+                species["species_id"].str.contains(query, case=False)
+            ]
+
+        else:
+            candidates = species
+
+        if len(candidates) == 0:
+            st.warning("該当するポケモンがありません")
+            st.stop()
+
+        species_ids = candidates["species_id"].tolist()
+
+        # 事前に辞書を作る
+        name_map = {
+            row["species_id"]: f"{row['name_ja']} ({row['species_id']})"
+            for _, row in species.iterrows()
+        }
+
+        species_name = st.selectbox(
+            "ポケモンを選択",
+            species_ids,
+            format_func=lambda sid: name_map[sid],
+            key="spname_b"
+        )
+
+        sp_b = species[species["species_id"] == species_name].iloc[0]
+        iv_b = generate_template_individual(species_name, sp_b)
+
+    if not sp_a.empty and not sp_b.empty:
+        #st.write(f"{sp_a} vs {sp_b}")
+        move_a, move_b = list_move_damage_both_sp(iv_a, iv_b, species, moves)
+
+        col1, col2 = st.columns(2)
+        with col1:
+            cp_a = calc_cp(
+                sp_a["base_atk"],
+                sp_a["base_def"],
+                sp_a["base_sta"],
+                iv_a["iv_atk"],
+                iv_a["iv_def"],
+                iv_a["iv_sta"],
+                iv_a["level"]
+                )
+            hp_b = compute_hp_row(iv_b)
+            st.write(f"{sp_a["name_ja"]}(LV:{iv_a["level"]}/CP:{cp_a}) ⇒ {sp_b["name_ja"]}  (HP:{hp_b})へのダメージ")
+            st.dataframe(
+                move_a.style.format({
+                    "倍率": "{:.2f}",
+                    "ダメージ": "{:.2f}",
+                    "威力": "{:.2f}",
+                    "ターン数": "{:.2f}",
+                    "エネルギー": "{:.2f}"
+                }),
+                width="stretch"
+            )
+
+        with col2:
+            cp_b = calc_cp(
+                sp_b["base_atk"],
+                sp_b["base_def"],
+                sp_b["base_sta"],
+                iv_b["iv_atk"],
+                iv_b["iv_def"],
+                iv_b["iv_sta"],
+                iv_b["level"]
+                )
+            hp_a = compute_hp_row(iv_a)
+            st.write(f"{sp_b["name_ja"]}(LV:{iv_b["level"]}/CP:{cp_b}) ⇒ {sp_a["name_ja"]} (HP:{hp_a})へのダメージ")
+            st.dataframe(
+                move_b.style.format({
+                    "倍率": "{:.2f}",
+                    "ダメージ": "{:.2f}",
+                    "威力": "{:.2f}",
+                    "ターン数": "{:.2f}",
+                    "エネルギー": "{:.2f}"
+                }),
+                width="stretch"
+            )
 
 if __name__ == "__main__":
     main()
