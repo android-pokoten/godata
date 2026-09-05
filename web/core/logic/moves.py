@@ -83,6 +83,46 @@ def calc_chargemove_list(sp):
 
     return charge_moves
 
+# メガシンカわざの一覧を作る
+'''
+input: sp > 辞書、species.csv データの1行
+output: > DataFrame、わざ一覧データ
+'''
+def calc_megamove_list(sp):
+    from core.type import TYPE_JA
+    from core.loader import load_moves
+
+    moves_df = load_moves()
+
+    # チャージわざのリストを作る
+    megamove_list = sp["mega_charge"].split(",") if sp["mega_charge"] else []
+
+    # チャージわざ全リストから、わざデータのリストを作る
+    charge_moves = moves_df[moves_df["move_id"].isin(megamove_list)].copy()
+
+    # タイプ一致倍率の stab 列を追加
+    charge_moves["stab"] = charge_moves["type"].apply(
+        lambda t: 1.2 if t in [sp["type1"], sp["type2"]] else 1.0
+    )
+    # タイプ一致判定用の 一致 列を追加
+    charge_moves["一致"] = charge_moves["stab"].apply(lambda x: "⭐" if x > 1.0 else "")
+    # 倍率適用後の実際のダメージ値の power_stab 列を追加
+    charge_moves["power_stab"] = (charge_moves["power"] * charge_moves["stab"]).round(1)
+    # エネルギーごとのダメージ値の dpe 列を追加
+    charge_moves["dpe"] = (charge_moves["power_stab"] / charge_moves["energy"].abs()).round(1)
+    # わざの日本語名の name_ja 列を追加
+    charge_moves["name_ja"] = charge_moves.apply(
+        lambda row: row["name_ja"] + "＊" if row["move_id"] in megamove_list else row["name_ja"],
+        axis=1
+    )
+    # わざのタイプの type 列を日本語名にする
+    charge_moves["type"] = charge_moves["type"].apply(lambda x: TYPE_JA.get(x, x))
+
+    # ツールチップを追加
+    charge_moves["text"] = f"ダメージ: {charge_moves["power_stab"].iloc[0]} / エネルギー: {charge_moves["energy"].iloc[0]} / DPE: {charge_moves["dpe"].iloc[0]}"
+
+    return charge_moves
+
     # チャージわざ選択ロジック
 def choose_charge_move(energy, m1, m2):
     available = []

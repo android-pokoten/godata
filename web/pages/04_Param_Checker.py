@@ -142,6 +142,32 @@ def render_iv_checker():
     rank_1500, rank_2500 = calc_pvp_rank(sp["species_id"], iv_atk, iv_def, iv_sta)
     st.success(f"スーパーリーグランク: **{rank_1500}位**")
 
+    # 進化先を再帰的にリスト化
+    def list_all_evolutions(sp, species):
+        """evolves_to を再帰的にたどって全進化先 species を返す"""
+        result = []
+
+        if not sp["evolves_to"]:
+            return result
+
+        next_forms = sp["evolves_to"].split(",")
+
+        for evo in next_forms:
+            evo_id = evo.strip().lower()
+
+            # species.csv から進化先を取得
+            evo_sp = species[species["species_id"] == evo_id]
+            if evo_sp.empty:
+                continue
+
+            evo_sp = evo_sp.iloc[0]
+            result.append(evo_sp)
+
+            # ★ 再帰：さらにその進化先も調べる
+            result.extend(list_all_evolutions(evo_sp, species))
+
+        return result
+
     # 進化先がある場合は進化後のCPを計算して表示する
     def write_evo_cp(base_sp):
         if base_sp["evolves_to"]:
@@ -163,15 +189,15 @@ def render_iv_checker():
                 evo_rank_1500, evo_rank_2500 = calc_pvp_rank(evo.strip().lower(), iv_atk, iv_def, iv_sta)
                 st.success(f'{evo_sp["name_ja"]} に進化した場合の推定CP: **{evo_cp}** / スーパーリーグ用 CP {evo_best_cp} / LV {evo_best_level} ({evo_rank_1500}位)')
 
-    # 進化後のCPを表示
+    # まず自分自身の進化後CP
     write_evo_cp(sp)
-    
-    # 2進化先のCPも表示
-    if sp["evolves_to"]:
-        next_evo_forms = sp["evolves_to"].split(",")
-        for evo in next_evo_forms:
-            evo_sps = species[species["species_id"] == evo.strip().lower()].iloc[0]
-            write_evo_cp(evo_sps)
+
+    # すべての進化先を取得
+    all_evos = list_all_evolutions(sp, species)
+
+    # 進化後の CP を全部表示
+    for evo_sp in all_evos:
+        write_evo_cp(evo_sp)
 
 if __name__ == "__main__":
     main()

@@ -9,7 +9,7 @@ from core.loader import load_species, load_opponents
 from core.param_calc import generate_template_individual
 
 from core.logic.type_matchup import calc_type_relations
-from core.logic.moves import calc_fastmove_list, calc_chargemove_list
+from core.logic.moves import calc_fastmove_list, calc_chargemove_list, calc_megamove_list
 from core.logic.stats import calc_indivisuals_stats, load_notes, save_note
 from core.style.type_matchup_style import style_type_relations
 from core.style.stats_style import type_with_underline, highlight_legacy, highlight_stab, render_charge_gauge, draw_types
@@ -180,6 +180,29 @@ def render_detail():
 
     st.markdown("わざ名の＊はコミュニティデイなどで覚えるわざ")
 
+    # メガ進化わざがある場合はそれを表示
+    if not pd.isna(sp["mega_charge"]):
+        # わざリストを作成
+        mega_move_list = calc_megamove_list(sp)
+
+        st.write("### メガシンカわざ")
+        cols = ["power_stab", "energy", "dpe"]
+        for c in cols:
+            mega_move_list[c] = mega_move_list[c].map(lambda x: f"{x: .1f}")
+        
+        st.table(mega_move_list[[
+            "move_id",
+            "name_ja",
+            "type",
+            "power_stab",
+            "energy",
+            "dpe",
+            "一致",
+            ]].style.apply(lambda row: highlight_legacy(row), axis=1)
+            .apply(highlight_stab, axis=1)
+            )
+
+
     # 個体データ
     st.subheader("手持ち個体一覧")
 
@@ -240,6 +263,21 @@ def render_detail():
                         row["charge2_energy"], 
                         ja_to_en_type(row["fast_move_type"]), 
                         ja_to_en_type(row["charge_move2_type"])), unsafe_allow_html=True
+                    )
+                # メガ進化わざがある場合はそれを表示
+                if not pd.isna(sp["mega_charge"]):
+                    # メガシンカわざ
+                    st.markdown(draw_types(
+                        ja_to_en_type(mega_move_list["type"].iloc[0]), 
+                        mega_move_list["name_ja"].iloc[0], 
+                        mega_move_list["text"].iloc[0]), unsafe_allow_html=True
+                    )
+                    st.markdown(render_charge_gauge(
+                        row["fast_energy"], 
+                        row["fast_turns"],
+                        mega_move_list["energy"].iloc[0], 
+                        ja_to_en_type(row["fast_move_type"]), 
+                        ja_to_en_type(mega_move_list["type"].iloc[0])), unsafe_allow_html=True
                     )
 
                 # 既存メモを取得
