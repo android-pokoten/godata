@@ -2114,7 +2114,7 @@ alakazam_mega,メガフーディン,psychic,,367,193,146,"psycho_cut_fast,confus
 slowbro_mega,メガヤドラン,water,psychic,224,259,216,"water_gun_fast,confusion_fast","water_pulse,psychic,ice_beam,scald,drain_punch",,,surf,,slowbro,1.0,90080.0,
 gengar_mega,メガゲンガー,ghost,poison,349,199,155,"sucker_punch_fast,hex_fast,shadow_claw_fast","shadow_ball,focus_blast,sludge_bomb,drain_punch",,lick_fast,"sludge_wave,dark_pulse,psychic,shadow_punch",,gengar,1.0,90094.0,
 kangaskhan_mega,メガガルーラ,normal,,246,210,233,"mud_slap_fast,low_kick_fast","crunch,earthquake,outrage,power_up_punch",,,"brick_break,stomp",,kangaskhan,1.0,90115.0,
-pinsir_mega,メガカイロス,bug,fly,305,231,163,"rock_smash_fast,bug_bite_fast,fury_cutter_fast","vice_grip,x_scissor,close_combat,super_power",,,submission,,pinsir,1.0,90127.0,
+pinsir_mega,メガカイロス,bug,flying,305,231,163,"rock_smash_fast,bug_bite_fast,fury_cutter_fast","vice_grip,x_scissor,close_combat,super_power",,,submission,,pinsir,1.0,90127.0,
 gyarados_mega,メガギャラドス,water,dark,292,247,216,"bite_fast,waterfall_fast,dragon_breath_fast","hydro_pump,crunch,outrage,twister",,dragon_tail_fast,"dragon_pulse,aqua_tail",,gyarados,1.0,90130.0,
 aerodactyl_mega,メガプテラ,rock,flying,292,210,190,"steel_wing_fast,bite_fast,rock_throw_fast,dragon_breath_fast","ancient_power,iron_head,hyper_beam,rock_slide,earth_power",,,,,aerodactyl,1.0,90142.0,
 mewtwo_mega_x,メガミュウツーX,psychic,fighting,412,285,214,"psycho_cut_fast,confusion_fast","psychic,thunderbolt,ice_beam,focus_blast,flamethrower",,counter_fast,"psystrike,shadow_ball,hyper_beam",,mewtwo,1.0,90150.0,dynamic_punch+
