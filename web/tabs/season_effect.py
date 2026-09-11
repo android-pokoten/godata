@@ -8,6 +8,7 @@ from core.loader import load_species, load_moves, load_individuals, load_opponen
 # シーズンごとのコミットIDリスト
 SEASON_COMMITS = {
     "S26 -> S27": "6012742ffe4b0e0024ec8340785e299f1f72bdea",
+    "S27 -> S28": "d693dc7c6f22d9b8e22184c5c62eadcf0cb2d2db",
 }
 
 def parse_move_changes(diff_text):
