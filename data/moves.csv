@@ -6,11 +6,13 @@ x_scissor,シザークロス,bug,charge,65.0,-40,
 silver_wind,ぎんいろのかぜ,bug,charge,75,-45,
 lunge,とびかかる,bug,charge,70,-45,
 fell_stinger,とどめばり,bug,charge,20.0,-35,
+fell_stinger+,とどめばり+,bug,charge,40.0,-35,
 fury_cutter_fast,れんぞくぎり,bug,fast,3.0,4,1
 bug_bite_fast,むしくい,bug,fast,4.0,3,1
 infestation_fast,まとわりつく,bug,fast,10,12,3
 struggle_bug_fast,むしのていこう,bug,fast,9.0,8,3
 dark_pulse,あくのはどう,dark,charge,80.0,-45,
+dark_pulse+,あくのはどう+,dark,charge,60.0,-40,
 night_slash,つじぎり,dark,charge,50.0,-35,
 crunch,かみくだく,dark,charge,70.0,-45,
 foul_play,イカサマ,dark,charge,65.0,-40,

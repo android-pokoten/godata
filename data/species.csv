@@ -2108,7 +2108,7 @@ miraidon_ultimate,ミライドン,electric,dragon,263,223,205,"thunder_shock_fas
 charizard_x,メガリザードンX,fire,dragon,273,213,186,"fire_spin_fast,air_slash_fast","fire_blast,dragon_claw,overheat,air_cutter",,"ember_fast,wing_attack_fast,dragon_breath_fast","blast_burn,flamethrower",,charizard,1.0,90006.0,
 venusaur_mega,メガフシギバナ,grass,poison,241,246,190,"razor_leaf_fast,vine_whip_fast","sludge_bomb,petal_blizzard,solar_beam,sludge",,,frenzy_plant,,venusaur,1.0,90003.0,
 blastoise_mega,メガカメックス,water,,264,237,188,"water_gun_fast,bite_fast,rollout_fast","flash_cannon,ice_beam,hydro_pump,skull_bash",,,hydro_cannon,,blastoise,1.0,90009.0,
-beedrill_mega,メガスピアー,bug,poison,303,148,163,"infestation_fast,poison_jab_fast,poison_sting_fast","sludge_bomb,aerial_ace,x_scissor,fell_stinger",,bug_bite_fast,drill_run,,beedrill,1.0,90015.0,
+beedrill_mega,メガスピアー,bug,poison,303,148,163,"infestation_fast,poison_jab_fast,poison_sting_fast","sludge_bomb,aerial_ace,x_scissor,fell_stinger",,bug_bite_fast,drill_run,,beedrill,1.0,90015.0,fell_stinger+
 pidgeot_mega,メガピジョット,normal,flying,280,175,195,"air_slash_fast,steel_wing_fast,dragon_breath_fast","hurricane,aerial_ace,brave_bird,feather_dance,heat_wave",,"wing_attack_fast,gust_fast",air_cutter,,pidgeot,1.0,90018.0,
 alakazam_mega,メガフーディン,psychic,,367,193,146,"psycho_cut_fast,confusion_fast","futuresight,focus_blast,shadow_ball,fire_punch",,counter_fast,"dazzling_gleam,psychic",,alakazam,1.0,90065.0,
 slowbro_mega,メガヤドラン,water,psychic,224,259,216,"water_gun_fast,confusion_fast","water_pulse,psychic,ice_beam,scald,drain_punch",,,surf,,slowbro,1.0,90080.0,
@@ -2122,7 +2122,7 @@ ampharos_mega,メガデンリュウ,electric,dragon,295,203,207,"charge_beam_fas
 steelix_mega,メガハガネール,steel,ground,212,327,181,"iron_tail_fast,dragon_tail_fast,thunder_fang_fast","earthquake,heavy_slam,crunch,psychic_fangs,breaking_swipe",,,,,steelix,,90208.0,
 scizor_mega,メガハッサム,bug,steel,279,250,172,"bullet_punch_fast,fury_cutter_fast","x_scissor,iron_head,night_slash,trailblaze",,,,,scizor,,90212.0,
 heracross_mega,メガヘラクロス,bug,fighting,334,223,190,"counter_fast,struggle_bug_fast,fury_cutter_fast","megahorn,close_combat,earthquake,rock_blast,upper_hand,rock_tomb",,,,,heracross,,90214.0,
-houndoom_mega,メガヘルガー,dark,fire,289,194,181,"snarl_fast,fire_fang_fast,incinerate_fast","crunch,fire_blast,foul_play,flamethrower,trailblaze",,,,,houndoom,,90229.0,
+houndoom_mega,メガヘルガー,dark,fire,289,194,181,"snarl_fast,fire_fang_fast,incinerate_fast","crunch,fire_blast,foul_play,flamethrower,trailblaze",,,,,houndoom,,90229.0,dark_pulse+
 tyranitar_mega,メガバンギラス,rock,dark,309,276,225,"bite_fast,iron_tail_fast,dragon_breath_fast","fire_blast,crunch,stone_edge,brutal_swing",,smack_down_fast,,,tyranitar,,90248.0,
 sceptile_mega,メガジュカイン,grass,dragon,320,186,172,"fury_cutter_fast,bullet_seed_fast","leaf_blade,aerial_ace,earthquake,dragon_claw,breaking_swipe",,,frenzy_plant,,sceptile,,90254.0,
 blaziken_mega,メガバシャーモ,fire,fighting,329,168,190,"counter_fast,fire_spin_fast,ember_fast","focus_blast,overheat,brave_bird,blaze_kick,aura_sphere",,,"blast_burn,stone_edge",,blaziken,,90257.0,
