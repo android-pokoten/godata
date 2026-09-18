@@ -70,7 +70,7 @@ def battle_log_tab():
 
     with left:
         # --- シーズン（最終行を初期値に） ---
-        season_list = list(range(20, 28))
+        season_list = list(range(20, 29))
         season = st.selectbox("シーズン", season_list, index=season_list.index(default_season))
 
     with center:
@@ -329,6 +329,11 @@ def battle_log_viewer_tab():
     # --- 表示用整形 ---
     def format_team(row, prefix):
         return f"{row[prefix+'1']} / {row[prefix+'2']} / {row[prefix+'3']}"
+
+    species = load_species()
+    name_map = dict(zip(species["species_id"], species["name_ja"]))
+    for col in ["opp1", "opp2", "opp3"]:
+        df_filtered[col] = df_filtered[col].map(name_map)
 
     df_filtered["自分の構築"] = df_filtered.apply(lambda r: format_team(r, "my"), axis=1)
     df_filtered["相手の構築"] = df_filtered.apply(lambda r: format_team(r, "opp"), axis=1)
