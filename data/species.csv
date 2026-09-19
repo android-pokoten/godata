@@ -2160,7 +2160,7 @@ scolipede_mega,メガペンドラー,bug,poison,257,254,155,"bug_bite_fast,poiso
 meganium_mega,メガメガニウム,grass,fairy,276,232,190,"razor_leaf_fast,vine_whip_fast,magical_leaf_fast","petal_blizzard,solar_beam,earthquake",,,frenzy_plant,,meganium,,90154.0,
 emboar_mega,メガエンブオー,fire,fighting,287,194,242,"low_kick_fast,ember_fast","heat_wave,rock_slide,focus_blast,flame_charge",,,blast_burn,,emboar,,90500.0,
 tatsugiri_mega,メガシャリタツ,dragon,water,262,232,169,"take_down_fast,water_gun_fast","outrage,surf,hydro_pump,muddy_water",,,,,tatsugiri,,90978.0,
-staraptor_mega,メガムクホーク,fighting,flying,278,207,198,"wing_attack_fast,quick_attack_fast,sand_attack_fast","brave_bird,heat_wave,close_combat,fly",,gust_fast,,,staraptor,,90398.0,
+staraptor_mega,メガムクホーク,fighting,flying,278,207,198,"wing_attack_fast,quick_attack_fast,sand_attack_fast","brave_bird,heat_wave,close_combat,fly",,gust_fast,,,staraptor,,90398.0,brave_bird+
 pyroar_mega,メガカエンジシ,fire,normal,273,198,200,"fire_fang_fast,take_down_fast,ember_fast,incinerate_fast","flame_charge,solar_beam,dark_pulse,overheat",,,,,pyroar,,90668.0,
 falinks_mega,メガタイレーツ,fighting,,267,229,163,"rock_smash_fast,counter_fast","super_power,brick_break,megahorn",,,,,falinks,,90870.0,brick_break+
 golurk_mega,メガゴルーグ,ground,ghost,284,202,205,"astonish_fast,mud_slap_fast","shadow_punch,dynamic_punch,earth_power,poltergeist",,,,,golurk,,90623.0,
