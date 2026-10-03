@@ -70,6 +70,7 @@ def render_cup_filter():
         "陽光カップ": render_sunshine_filter,
         "レトロカップ": render_retro_filter,
         "闘争心カップ": render_fighter_filter,
+        "4色カップ": render_colored_filter,
     }
 
     tab_objects = st.tabs(list(tabs.keys()))
@@ -195,7 +196,7 @@ def render_jungle_filter():
     ivs = filter_type_common("jungle", target_individuals, all_types, all_move_types)
 
     st.dataframe(ivs[[
-        "individual_id", "iv_atk", "iv_def", "iv_sta", "level",
+        "individual_id",
         "is_shadow", "is_purified", "CP", "SCP", "HP",
         "type1_ja", "type2_ja",
         "fast_ja", "fast_type_ja", "charge1_ja", "charge1_type_ja", "charge2_ja", "charge2_type_ja"
@@ -236,7 +237,7 @@ def render_electro_filter():
     ivs = filter_type_common("electro", target_individuals, all_types, all_move_types)
 
     st.dataframe(ivs[[
-        "individual_id", "iv_atk", "iv_def", "iv_sta", "level",
+        "individual_id",
         "is_shadow", "is_purified", "CP", "SCP", "HP",
         "type1_ja", "type2_ja",
         "fast_ja", "fast_type_ja", "charge1_ja", "charge1_type_ja", "charge2_ja", "charge2_type_ja"
@@ -277,7 +278,7 @@ def render_fantasy_filter():
     ivs = filter_type_common("fantasy", target_individuals, all_types, all_move_types)
 
     st.dataframe(ivs[[
-        "individual_id", "iv_atk", "iv_def", "iv_sta", "level",
+        "individual_id",
         "is_shadow", "is_purified", "CP", "SCP", "HP",
         "type1_ja", "type2_ja",
         "fast_ja", "fast_type_ja", "charge1_ja", "charge1_type_ja", "charge2_ja", "charge2_type_ja"
@@ -318,7 +319,7 @@ def render_spring_filter():
     ivs = filter_type_common("spring", target_individuals, all_types, all_move_types)
 
     st.dataframe(ivs[[
-        "individual_id", "iv_atk", "iv_def", "iv_sta", "level",
+        "individual_id",
         "is_shadow", "is_purified", "CP", "SCP", "HP",
         "type1_ja", "type2_ja",
         "fast_ja", "fast_type_ja", "charge1_ja", "charge1_type_ja", "charge2_ja", "charge2_type_ja"
@@ -361,7 +362,7 @@ def render_kanto_filter():
     ivs = filter_type_common("kanto", target_individuals, all_types, all_move_types)
 
     st.dataframe(ivs[[
-        "individual_id", "iv_atk", "iv_def", "iv_sta", "level",
+        "individual_id",
         "is_shadow", "is_purified", "CP", "SCP", "HP",
         "type1_ja", "type2_ja",
         "fast_ja", "fast_type_ja", "charge1_ja", "charge1_type_ja", "charge2_ja", "charge2_type_ja"
@@ -402,7 +403,7 @@ def render_sunshine_filter():
     ivs = filter_type_common("sunshine", target_individuals, all_types, all_move_types)
 
     st.dataframe(ivs[[
-        "individual_id", "iv_atk", "iv_def", "iv_sta", "level",
+        "individual_id",
         "is_shadow", "is_purified", "CP", "SCP", "HP",
         "type1_ja", "type2_ja",
         "fast_ja", "fast_type_ja", "charge1_ja", "charge1_type_ja", "charge2_ja", "charge2_type_ja"
@@ -443,7 +444,7 @@ def render_summer_filter():
     ivs = filter_type_common("summer", target_individuals, all_types, all_move_types)
 
     st.dataframe(ivs[[
-        "individual_id", "iv_atk", "iv_def", "iv_sta", "level",
+        "individual_id",
         "is_shadow", "is_purified", "CP", "SCP", "HP",
         "type1_ja", "type2_ja",
         "fast_ja", "fast_type_ja", "charge1_ja", "charge1_type_ja", "charge2_ja", "charge2_type_ja"
@@ -484,7 +485,7 @@ def render_retro_filter():
     ivs = filter_type_common("retro", target_individuals, all_types, all_move_types)
 
     st.dataframe(ivs[[
-        "individual_id", "iv_atk", "iv_def", "iv_sta", "level",
+        "individual_id",
         "is_shadow", "is_purified", "CP", "SCP", "HP",
         "type1_ja", "type2_ja",
         "fast_ja", "fast_type_ja", "charge1_ja", "charge1_type_ja", "charge2_ja", "charge2_type_ja"
@@ -525,7 +526,7 @@ def render_nature_filter():
     ivs = filter_type_common("nature", target_individuals, all_types, all_move_types)
 
     st.dataframe(ivs[[
-        "individual_id", "iv_atk", "iv_def", "iv_sta", "level",
+        "individual_id",
         "is_shadow", "is_purified", "CP", "SCP", "HP",
         "type1_ja", "type2_ja",
         "fast_ja", "fast_type_ja", "charge1_ja", "charge1_type_ja", "charge2_ja", "charge2_type_ja"
@@ -567,7 +568,7 @@ def render_evolve_filter():
     ivs = filter_type_common("evolve", target_individuals, all_types, all_move_types)
 
     st.dataframe(ivs[[
-        "individual_id", "iv_atk", "iv_def", "iv_sta", "level",
+        "individual_id",
         "is_shadow", "is_purified", "CP", "SCP", "HP",
         "type1_ja", "type2_ja",
         "fast_ja", "fast_type_ja", "charge1_ja", "charge1_type_ja", "charge2_ja", "charge2_type_ja"
@@ -608,7 +609,7 @@ def render_kakejiku_filter():
     ivs = filter_type_common("kakejiku", target_individuals, all_types, all_move_types)
 
     st.dataframe(ivs[[
-        "individual_id", "iv_atk", "iv_def", "iv_sta", "level",
+        "individual_id",
         "is_shadow", "is_purified", "CP", "SCP", "HP",
         "type1_ja", "type2_ja",
         "fast_ja", "fast_type_ja", "charge1_ja", "charge1_type_ja", "charge2_ja", "charge2_type_ja"
@@ -627,11 +628,52 @@ def render_fighter_filter():
     - **使用禁止タイプ：**
     - (なし)
     - **使用不可**
-    - (なし)
+    - サーナイト / ゾロア / ゾロアーク
     """)
 
     # カップ対象タイプ
     target_types = ["fighting", "dark", "psychic"]
+
+    # 出場不可タイプ
+    banned_type = []
+
+    # 使用不可
+    banned_ids = ["gardevoir", "zorua", "zoroark"]
+
+    # 図鑑番号
+    dex_numbers = []
+
+    target_individuals, all_types, all_move_types = cup_filter_common(target_types, banned_type, banned_ids, dex_numbers)
+
+    st.subheader("出場可能な手持ち一覧")
+    # フィルター
+    ivs = filter_type_common("fighter", target_individuals, all_types, all_move_types)
+
+    st.dataframe(ivs[[
+        "individual_id",
+        "is_shadow", "is_purified", "CP", "SCP", "HP",
+        "type1_ja", "type2_ja",
+        "fast_ja", "fast_type_ja", "charge1_ja", "charge1_type_ja", "charge2_ja", "charge2_type_ja"
+    ]].sort_values("individual_id"), width='stretch')
+
+# 4色カップ
+def render_colored_filter():
+    st.header("4色カップ出場可能ポケモン")
+
+    st.markdown("""
+    ### 🔥💧🌿⚡ 4色カップ出場条件
+
+    - **CP1500 以下**
+    - **使用可能タイプ：**
+    - くさ / ほのお / みず / でんき
+    - **使用禁止タイプ：**
+    - (なし)
+    - **使用不可**
+    - (なし)
+    """)
+
+    # カップ対象タイプ
+    target_types = ["grass", "fire", "water", "electoric"]
 
     # 出場不可タイプ
     banned_type = []
@@ -646,10 +688,10 @@ def render_fighter_filter():
 
     st.subheader("出場可能な手持ち一覧")
     # フィルター
-    ivs = filter_type_common("fighter", target_individuals, all_types, all_move_types)
+    ivs = filter_type_common("colored", target_individuals, all_types, all_move_types)
 
     st.dataframe(ivs[[
-        "individual_id", "iv_atk", "iv_def", "iv_sta", "level",
+        "individual_id",
         "is_shadow", "is_purified", "CP", "SCP", "HP",
         "type1_ja", "type2_ja",
         "fast_ja", "fast_type_ja", "charge1_ja", "charge1_type_ja", "charge2_ja", "charge2_type_ja"
