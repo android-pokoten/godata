@@ -12,7 +12,6 @@ def main():
 
     render_iv_checker()
 
-@st.fragment
 def render_iv_checker():
     st.header("個体値チェッカー")
     

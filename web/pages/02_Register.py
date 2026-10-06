@@ -15,7 +15,6 @@ def main():
 
     render_register()
 
-@st.fragment
 def render_register():
     species = load_species()
     moves = load_moves()

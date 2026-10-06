@@ -300,7 +300,6 @@ def party_simulator():
 
         st.table(styled_attach_df)
 
-@st.fragment
 def render_damage_sim():
     from core.param_calc import calc_cp, compute_hp_row
     from core.logic.damage import list_move_damage_both_sp

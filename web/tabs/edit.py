@@ -10,7 +10,6 @@ CSV_FILES = {
     #"対戦ログ(battle_log.csv)": "data/battle_log.csv",
 }
 
-@st.fragment
 def render_editer(csv_files=CSV_FILES):
     st.header("CSV 編集ツール")
 

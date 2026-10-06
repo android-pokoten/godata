@@ -55,7 +55,6 @@ individuals["charge2_type_ja"] = individuals["charge2_type"].map(TYPE_JA)
 
 
 # サブタブ表示
-@st.fragment
 def render_cup_filter():
     tabs = {
         "かけじくカップ": render_kakejiku_filter,

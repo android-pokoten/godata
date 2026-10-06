@@ -5,7 +5,6 @@ from core.simulator import simulate, list_move_damage_both
 from core.loader import load_species, load_individuals, load_moves, load_opponents
 from core.param_calc import generate_template_individual, compute_hp_row
 
-@st.fragment
 def render_3vs3_simulator():
     species = load_species()
     opponents = load_opponents()

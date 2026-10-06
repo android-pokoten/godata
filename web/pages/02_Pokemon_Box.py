@@ -55,7 +55,6 @@ def render_individuals_list():
     st.dataframe(individuals, width='stretch')
 
 # 手持ちデータ修正
-@st.fragment
 def render_iv_editor():
     csv_files = {
         "個体データ (individuals.csv)": "data/individuals.csv",

@@ -202,7 +202,6 @@ def get_git_diff(commit, filename):
     except subprocess.CalledProcessError as e:
         return f"Error: {e.output}"
 
-@st.fragment
 # シーズンごとのわざ調整
 def render_season_effect():
     st.header("シーズン調整（コミット差分）")

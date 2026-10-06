@@ -20,7 +20,6 @@ def main():
 
     render_detail()
 
-@st.fragment
 def render_detail():
     st.header("ポケモン詳細")
 

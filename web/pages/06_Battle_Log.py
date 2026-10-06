@@ -32,7 +32,6 @@ def render_battlelog():
             func()
     
 # バトルログ記録
-@st.fragment
 def battle_log_tab():
     from datetime import datetime
     import os
@@ -192,7 +191,6 @@ def battle_log_tab():
 
 
 # バトルログ分析
-@st.fragment
 def analyse_log_tab():
     from datetime import datetime
     import os
@@ -284,7 +282,6 @@ def analyse_log_tab():
     st.table(pokemon_stats.sort_values("勝率", ascending=False))
 
 # バトルログ参照
-@st.fragment
 def battle_log_viewer_tab():
 
     st.header("バトルログ閲覧")
@@ -425,7 +422,6 @@ def battle_log_viewer_tab():
         st.dataframe(df_opp_all)
 
 # バトルログ修正
-@st.fragment
 def edit_log_tab():
     csv_files = {
         "対戦ログ(battle_log.csv)": "data/battle_log.csv",

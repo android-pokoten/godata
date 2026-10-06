@@ -35,7 +35,6 @@ def render_species():
     st.dataframe(species)
 
 # わざ一覧
-@st.fragment
 def render_moves():
     MODE_ALL = "両方"
     MOVE_FAST = "ノーマル"
