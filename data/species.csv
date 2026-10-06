@@ -2147,7 +2147,7 @@ glalie_mega,メガオニゴーリ,ice,,252,168,190,"ice_shard_fast,frost_breath_
 audino_mega,メガタブンネ,normal,fairy,205,179,230,"pound_fast,zen_headbutt_fast,charge_beam_fast","disarming_voice,dazzling_gleam,hyper_beam,body_slam",,,,,audino,,90531.0,
 lopunny_mega,メガミミロップ,normal,fighting,282,214,163,"pound_fast,low_kick_fast,double_kick_fast","fire_punch,hyper_beam,focus_blast,triple_axel,thunder_punch,shadow_ball",,,,,lopunny,,90428.0,
 gallade_mega,メガエルレイド,psychic,fighting,326,230,169,"confusion_fast,low_kick_fast,charm_fast,psycho_cut_fast","close_combat,psychic,leaf_blade,sacred_sword",,,synchronoise,,gallade,,90475.0,
-chesnaught_mega,メガブリガロン,grass,fighting,242,282,204,"low_kick_fast,vine_whip_fast,smack_down_fast","gyro_ball,energy_ball,super_power,solar_beam,thunder_punch",,,frenzy_plant,,chesnaught,,90652.0,
+chesnaught_mega,メガブリガロン,grass,fighting,242,282,204,"low_kick_fast,vine_whip_fast,smack_down_fast","gyro_ball,energy_ball,super_power,solar_beam,thunder_punch",,,frenzy_plant,,chesnaught,,90652.0,seed_bomb+
 golisopod_mega,メガグソクムシャ,bug,steel,260,287,181,"fury_cutter_fast,metal_claw_fast,waterfall_fast,shadow_claw_fast","x_scissor,aqua_jet,aerial_ace,liquidation,razor_shell",,,,,golisopod,,90768.0,
 dragalge_mega,メガドラミドロ,poison,dragon,236,265,163,"water_gun_fast,acid_fast,dragon_tail_fast","hydro_pump,aqua_tail,outrage,gunk_shot,focus_blast,sludge_bomb",,,,,dragalge,,90691.0,
 scrafty_mega,メガズルズキン,dark,fighting,238,266,163,"counter_fast,snarl_fast","acid_spray,power_up_punch,foul_play,thunder_punch,upper_hand",,,,,scrafty,,90560.0,
@@ -2182,10 +2182,10 @@ meowstic_mega,メガニャオニクス,psychic,,288,201,179,"confusion_fast,suck
 eelektross_mega,メガシビルドン,electric,,291,175,198,"acid_fast,spark_fast","crunch,thunderbolt,acid_spray,dragon_claw,liquidation",,volt_switch_fast,,,eelektross,,90604.0,
 raichu_mega_x,メガライチュウX,electric,,277,203,155,"volt_switch_fast,spark_fast,charm_fast,thunder_shock_fast","brick_break,thunder_punch,wild_charge,skull_bash,trailblaze,surf,volt_tackle",,,thunder,,raichu,1.0,90026.0,volt_tackle+
 magearna_mega,メガマギアナ,steel,fairy,342,239,190,splash_fast,struggle,,,,,magearna,,90801.0,
-delphox_mega,メガマフォクシー,fire,psychic,331,235,181,"scratch_fast,fire_spin_fast,zen_headbutt_fast","psychic,flamethrower,flame_charge,fire_blast,mystical_fire,psyshock",,,blast_burn,,delphox,,90655.0,
+delphox_mega,メガマフォクシー,fire,psychic,331,235,181,"scratch_fast,fire_spin_fast,zen_headbutt_fast","psychic,flamethrower,flame_charge,fire_blast,mystical_fire,psyshock",,,blast_burn,,delphox,,90655.0,mystical_fire+
 froslass_mega,メガユキメノコ,ice,ghost,289,194,172,"powder_snow_fast,hex_fast","avalanche,crunch,shadow_ball,triple_axel",,,,,froslass,,90478.0,
 scovillain_mega,メガスコヴィラン,grass,fire,276,170,163,"leafage_fast,fire_fang_fast","leaf_storm,grass_knot,overheat,flamethrower",,,,,scovillain,,90952.0,
-greninja_mega,メガゲッコウガ,water,dark,299,180,176,"feint_attack_fast,bubble_fast,water_shuriken_fast","night_slash,aerial_ace,surf,hydro_pump,brutal_swing",,,hydro_cannon,,greninja,,90658.0,
+greninja_mega,メガゲッコウガ,water,dark,299,180,176,"feint_attack_fast,bubble_fast,water_shuriken_fast","night_slash,aerial_ace,surf,hydro_pump,brutal_swing",,,hydro_cannon,,greninja,,90658.0,surf+
 chandelure_mega,メガシャンデラ,ghost,fire,335,227,155,"hex_fast,fire_spin_fast,incinerate_fast,astonish_fast","energy_ball,shadow_ball,overheat,flame_charge",,,poltergeist,,chandelure,,90609.0,
 zeraora_mega,メガゼラオラ,electric,,361,180,204,"spark_fast,volt_switch_fast","thunder_punch,discharge,wild_charge,plasma_fists,dynamic_punch",,,,,zeraora,,90807.0,
 lucario_mega_z,メガルカリオZ,fighting,steel,359,161,172,"counter_fast,bullet_punch_fast","flash_cannon,shadow_ball,close_combat,power_up_punch,aura_sphere,blaze_kick,thunder_punch,meteor_mash",,force_palm_fast,,,lucario,,90448.0,
