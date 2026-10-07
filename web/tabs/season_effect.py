@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
-import subprocess
 import re
+import requests
 
 from core.loader import load_species, load_moves, load_individuals, load_opponents
 
@@ -193,14 +193,21 @@ def build_added_moves(species_df, added_moves_dict):
 
 # Git の差分を取得
 def get_git_diff(commit, filename):
-    try:
-        diff = subprocess.check_output(
-            ["git", "diff", f"{commit}^", commit, "--", filename],            text=True,
-            stderr=subprocess.STDOUT
-        )
-        return diff
-    except subprocess.CalledProcessError as e:
-        return f"Error: {e.output}"
+    info = requests.get(
+        f"https://api.github.com/repos/android-pokoten/godata/commits/{commit}"
+    ).json()
+    
+    parent = info["parents"][0]["sha"]
+    
+    compare = requests.get(
+        f"https://api.github.com/repos/android-pokoten/godata/compare/{parent}...{commit}"
+    ).json()
+    
+    for f in compare["files"]:
+       if f["filename"] == filename:
+        return f.get("patch", "")
+    
+    return ""
 
 # シーズンごとのわざ調整
 def render_season_effect():
