@@ -2,7 +2,7 @@
   "name": "PokemonGo Data Viewer",
   "short_name": "PokemonGo Data Viewer",
   "description": "",
-  "start_url": "/index.html",
+  "start_url": "/godata/index.html",
   "display": "standalone",
   "background_color": "#f0f9ff",
   "theme_color": "#6366f1",
