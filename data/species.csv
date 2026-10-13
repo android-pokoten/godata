@@ -2132,7 +2132,7 @@ sableye_mega,メガヤミラミ,dark,ghost,151,216,137,"shadow_claw_fast,feint_a
 mawile_mega,メガクチート,steel,fairy,188,229,137,"bite_fast,astonish_fast,ice_fang_fast,fire_fang_fast,fairy_wind_fast","play_rough,vice_grip,iron_head,power_up_punch",,,,,mawile,,90303.0,
 aggron_mega,メガボスゴドラ,steel,rock,300,270,172,"dragon_tail_fast,iron_tail_fast,smack_down_fast,metal_sound_fast","thunder,stone_edge,heavy_slam,rock_tomb,meteor_beam",,,,,aggron,,90306.0,
 medicham_mega,メガチャーレム,fighting,psychic,205,179,155,"psycho_cut_fast,counter_fast","ice_punch,psychic,dynamic_punch,power_up_punch",,,,,medicham,,90308.0,
-manectric_mega,メガライボルト,electric,,286,179,172,"snarl_fast,charge_beam_fast,thunder_fang_fast","thunder,wild_charge,flame_burst,overheat,psychic_fangs",,,,,manectric,,90310.0,
+manectric_mega,メガライボルト,electric,,286,179,172,"snarl_fast,charge_beam_fast,thunder_fang_fast","thunder,wild_charge,flame_burst,overheat,psychic_fangs",,,,,manectric,,90310.0,discharge+
 sharpedo_mega,メガサメハダー,water,dark,289,144,140,"bite_fast,waterfall_fast","hydro_pump,crunch,poison_fang",,,,,sharpedo,,90319.0,
 camerupt_mega,メガバクーダ,fire,ground,247,172,172,"ember_fast,rock_smash_fast,incinerate_fast","earthquake,overheat,solar_beam,earth_power,scorching_sands,rock_tomb",,,,,camerupt,,90323.0,
 altaria_mega,メガチルタリス,dragon,fairy,222,218,181,"peck_fast,dragon_breath_fast","sky_attack,dazzling_gleam,dragon_pulse,flamethrower",,,moonblast,,altaria,,90334.0,

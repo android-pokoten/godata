@@ -40,6 +40,7 @@ dragon_energy,ドラゴンエナジー,dragon,charge,90.0,-45,
 dragon_breath_fast,りゅうのいぶき,dragon,fast,3.0,4,1
 dragon_tail_fast,ドラゴンテール,dragon,fast,9.0,12,3
 discharge,ほうでん,electric,charge,55.0,-40,
+discharge+,ほうでん+,electric,charge,50,-35,
 parabolic_charge,パラボラチャージ,electric,charge,70.0,-50,
 thunder_punch,かみなりパンチ,electric,charge,60.0,-40,
 thunder,かみなり,electric,charge,100.0,-60,
