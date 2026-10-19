@@ -2051,7 +2051,7 @@ bellibolt,ハラバリー,electric,,184,165,240,"thunder_shock_fast,water_gun_fa
 kilowattrel,タイカイデン,electric,flying,221,132,172,"thunder_shock_fast,air_slash_fast","acrobatics,aerial_ace,thunderbolt",,,,,WATTREL,,941.0,
 mabosstiff,マフィティフ,dark,,230,168,190,"snarl_fast,bite_fast","crunch,psychic_fangs,dig",,,,,MASCHIFF,,943.0,
 grafaiai,タギングル,poison,normal,199,149,160,"mud_slap_fast,poison_jab_fast,scratch_fast","acid_spray,poison_fang,sludge_bomb,foul_play",,,,,SHROODLE,,945.0,
-brambleghast,アノホラグサ,grass,ghost,228,144,146,"hex_fast,bullet_seed_fast","shadow_sneak,night_shade,power_whip",,,,,BRAMBLIN,,947.0,
+brambleghast,アノホラグサ,grass,ghost,228,144,146,"astonish_fast,bullet_seed_fast","shadow_sneak,night_shade,power_whip",,,,,BRAMBLIN,,947.0,
 toedscruel,リククラゲ,ground,grass,166,209,190,"mud_slap_fast,mud_shot_fast","earth_power,seed_bomb,wrap,acid_spray",,,,,TOEDSCOOL,,949.0,
 klawf,ガケガニ,rock,,184,185,172,"rock_throw_fast,mud_slap_fast","rock_slide,rock_tomb,bulldoze",,,,,,,950.0,
 rabsca,ベラカス,bug,psychic,201,178,181,"bug_bite_fast,confusion_fast","dig,bug_buzz,lunge,psybeam",,,,,RELLOR,,954.0,
