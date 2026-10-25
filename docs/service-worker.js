@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pokotenote-data-viewer-v20261014';
+const CACHE_NAME = 'pokotenote-data-viewer-v20261025';
 
 self.addEventListener("install", (event) => {
   self.skipWaiting();
